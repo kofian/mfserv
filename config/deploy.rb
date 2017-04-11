@@ -8,7 +8,7 @@ set :linked_dirs, %w(
   bin log vendor/bundle public/system
   tmp/pids tmp/cache tmp/sockets
 )
-set :puma_bind, "tcp://0.0.0.0:8080"
+set :puma_bind, "tcp://223.25.244.120:8080"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
