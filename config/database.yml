@@ -14,8 +14,8 @@ development:
   username: "<%= ENV['POSTGRES_DB_USERNAME'] %>"
   pool: 5
 production:
-  adapter: posgresql
-  database: moneyt_production
+  adapter: postgresql
+  database: money_production
   encoding: utf8
   password: "<%= ENV['POSTGRES_PR_PASSWORD'] %>"
   username: "<%= ENV['POSTGRES_PR_USERNAME'] %>"
