@@ -1,0 +1,31 @@
+default:
+  adapter: postgresql
+  encoding: utf8
+  host: localhost
+  password: "<%= ENV['POSTGRES_DB_PASSWORD'] %>"
+  username: "<%= ENV['POSTGRES_DB_USERNAME'] %>
+  pool: 5
+development:
+  adapter: postgresql
+  database: money_development
+  encoding: utf8
+  host: localhost
+  password: "<%= ENV['POSTGRES_DB_PASSWORD'] %>"
+  username: "<%= ENV['POSTGRES_DB_USERNAME'] %>"
+  pool: 5
+production:
+  adapter: posgresql
+  database: moneyt_production
+  encoding: utf8
+  password: "<%= ENV['POSTGRES_PR_PASSWORD'] %>"
+  username: "<%= ENV['POSTGRES_PR_USERNAME'] %>"
+  host: localhost
+test:
+  adapter: postgresql
+  database: money_test
+  encoding: utf8
+  host: localhost
+  password: "<%= ENV['POSTGRES_DB_PASSWORD'] %>"
+  username: "<%= ENV['POSTGRES_DB_USERNAME'] %>"
+  pool: 5
+
