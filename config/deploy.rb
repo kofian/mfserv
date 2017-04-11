@@ -8,13 +8,14 @@ set :linked_dirs, %w(
   bin log vendor/bundle public/system
   tmp/pids tmp/cache tmp/sockets
 )
-set :puma_bind, "tcp://223.25.244.120:8080"
+#set :puma_bind, "tcp://223.25.244.120:8080"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
 # set :deploy_to, "/var/www/my_app_name"
+set :deploy_to, "/var/www/transa-transact.com/public_html/money"
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
@@ -25,6 +26,7 @@ set :puma_bind, "tcp://223.25.244.120:8080"
 
 # Default value for :pty is false
 # set :pty, true
+set :pty, true
 
 # Default value for :linked_files is []
 # append :linked_files, "config/database.yml", "config/secrets.yml"
