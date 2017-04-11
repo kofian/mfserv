@@ -3,7 +3,7 @@ default:
   encoding: utf8
   host: localhost
   password: "<%= ENV['POSTGRES_DB_PASSWORD'] %>"
-  username: "<%= ENV['POSTGRES_DB_USERNAME'] %>
+  username: "<%= ENV['POSTGRES_DB_USERNAME'] %>"
   pool: 5
 development:
   adapter: postgresql
@@ -28,4 +28,3 @@ test:
   password: "<%= ENV['POSTGRES_DB_PASSWORD'] %>"
   username: "<%= ENV['POSTGRES_DB_USERNAME'] %>"
   pool: 5
-
