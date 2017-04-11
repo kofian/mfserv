@@ -25,7 +25,8 @@ gem 'figaro'
 
 gem "capistrano-rails", :group => :development
 gem "capistrano3-puma"
-gem "capistrano-rbenv"
+gem 'capistrano', '~> 3.1'
+gem 'capistrano-rbenv', '~> 2.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

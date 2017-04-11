@@ -188,8 +188,9 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
+  capistrano (~> 3.1)
   capistrano-rails
-  capistrano-rbenv
+  capistrano-rbenv (~> 2.0)
   capistrano3-puma
   coffee-rails (~> 4.2)
   figaro
