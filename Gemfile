@@ -22,11 +22,16 @@ gem 'coffee-rails', '~> 4.2'
 gem 'therubyracer', platforms: :ruby
 
 gem 'figaro'
+#gem 'passenger'
 
-gem "capistrano-rails", :group => :development
-gem "capistrano3-puma"
-gem 'capistrano', '~> 3.1'
-gem 'capistrano-rbenv', '~> 2.0'
+group :development do
+  gem "capistrano-rails"
+  gem "capistrano3-puma"
+  gem 'capistrano', '~> 3.1'
+  gem 'capistrano-rbenv', '~> 2.0'
+  gem 'capistrano-bundler'
+  gem 'capistrano-passenger', '>= 0.1.1'
+end
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
