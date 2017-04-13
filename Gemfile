@@ -25,12 +25,13 @@ gem 'figaro'
 #gem 'passenger'
 
 group :development do
-  gem "capistrano-rails"
-  gem "capistrano3-puma"
-  gem 'capistrano', '~> 3.1'
-  gem 'capistrano-rbenv', '~> 2.0'
-  gem 'capistrano-bundler'
+  gem "capistrano-rails", require: false
+  #gem "capistrano3-puma"
+  gem 'capistrano', '~> 3.1', require: false
+  gem 'capistrano-rbenv', '~> 2.0', require: false
+  gem 'capistrano-bundler', require: false
   gem 'capistrano-passenger', '>= 0.1.1'
+  gem 'capistrano-rbenv-install', github: "renuo/capistrano-rbenv-install", ref: 'master'
 end
 
 # Use jquery as the JavaScript library

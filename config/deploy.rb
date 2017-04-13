@@ -5,14 +5,14 @@ set :application, "money"
 #set :repo_url, "git@github.com:kofian/finca.git"
 set :repo_url, "git://github.com/kofian/finca.git"
 
-set :linked_dirs, %w(
-  bin log vendor/bundle public/system
-  tmp/pids tmp/cache tmp/sockets
-)
-#set :puma_bind, "tcp://223.25.244.120:8080"
+set :linked_files, %w{config/application.yml config/database.yml}
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/assets}
+
+set :puma_bind, "tcp://0.0.0.0:8080"
 set :user,   'deployer'
-set :puma_threads,    [4, 16]
-set :puma_workers,    0
+#set :puma_threads,    [4, 16]
+#set :puma_workers,    0
+set :rbenv_type, :user
 set :rbenv_ruby, '2.4.0'
 set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
 set :rbenv_map_bins, %w{rake gem bundle ruby rails}
@@ -40,6 +40,15 @@ namespace :deploy do
     end
   end
 
+  after :restart, :clear_cache do
+    on roles(:web), in: :groups, limit: 3, wait: 10 do
+      # Here we can do anything such as:
+      # within release_path do
+      #   execute :rake, 'cache:clear'
+      # end
+    end
+  end
+
 end
 
 
@@ -49,8 +58,8 @@ end
 
 # Default deploy_to directory is /var/www/my_app_name
 # set :deploy_to, "/var/www/my_app_name"
-#set :deploy_to, "/var/www/transa-transact.com/public_html/money"
-set :deploy_to, "/var/www/transa-transact.com/public_html"
+set :deploy_to, "/var/www/transa-transact.com/public_html/money/public_html"
+#set :deploy_to, "/var/www/transa-transact.com/public_html"
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh

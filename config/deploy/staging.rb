@@ -7,7 +7,8 @@
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
-
+#server "transa-transact.com", :user => "deployer", :roles => %w(web app db)
+#set :rails_env, "production"
 
 # role-based syntax
 # ==================
@@ -21,7 +22,19 @@
 # role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
 # role :db,  %w{deploy@example.com}
 
+server_str = '223.25.244.120'
+user_str = 'deployer'
+user_str1 = 'Updater'
 
+role :app, "#{user_str}@#{server_str}"
+role :web, "#{user_str}@#{server_str}"
+role :db,  "#{user_str1}@#{server_str}"
+
+server server_str, user: user_str, roles: %w{web app}
+
+set :branch, "BRANCH"
+
+set :rails_env, "production"
 
 # Configuration
 # =============

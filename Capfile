@@ -5,12 +5,13 @@ require "capistrano/setup"
 require "capistrano/deploy"
 
 require "capistrano/rbenv"
+#require 'capistrano/rbenv_install'
 require "capistrano/bundler"
 require "capistrano/rails/assets"
 require "capistrano/rails/migrations"
 require "capistrano/passenger"
-require "capistrano/puma"
-install_plugin Capistrano::Puma
+#require "capistrano/puma"
+#install_plugin Capistrano::Puma
 
 # Load the SCM plugin appropriate to your project:
 #
