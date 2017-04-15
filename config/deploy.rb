@@ -8,7 +8,7 @@ set :repo_url, "git://github.com/kofian/finca.git"
 set :linked_files, %w{config/application.yml config/database.yml}
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/assets}
 
-set :puma_bind, "tcp://0.0.0.0:8080"
+#set :puma_bind, "tcp://0.0.0.0:8080"
 set :user,   'deployer'
 #set :puma_threads,    [4, 16]
 #set :puma_workers,    0
@@ -58,7 +58,7 @@ end
 
 # Default deploy_to directory is /var/www/my_app_name
 # set :deploy_to, "/var/www/my_app_name"
-set :deploy_to, "/var/www/transa-transact.com/public_html/money/public_html"
+set :deploy_to, "/var/www/transa-transact.com/public_html"
 #set :deploy_to, "/var/www/transa-transact.com/public_html"
 
 # Default value for :format is :airbrussh.

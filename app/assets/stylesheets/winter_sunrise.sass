@@ -1,0 +1,12 @@
+@import "basic_styles.sass"
+@import "masic_styles.sass"
+
+$bg_color: #7E99D0
+$bg_image: "winter_sunrise_bg_optimized.jpg"
+$body_text_color: #FFF
+$panel_heading_color: #50517F
+$secondary_theme_color: lighten($panel_heading_color, 30%)
+$tertiary_theme_color: darken($panel_heading_color, 15%)
+$bg_transparency: rgba(240,240,240,0.6)
+
+@include basic_styles($bg_color, $bg_image, $body_text_color, $panel_heading_color, $secondary_theme_color, $tertiary_theme_color, $bg_transparency)

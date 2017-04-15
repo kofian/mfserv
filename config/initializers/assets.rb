@@ -3,6 +3,15 @@
 # Version of your assets, change this if you want to expire all your assets.
 Rails.application.config.assets.version = '1.0'
 
+# Precompile additional assets.
+Rails.application.config.assets.precompile += %w( winter_sunrise.css )
+Rails.application.config.assets.precompile += %w( tranquil_mountain.css )
+Rails.application.config.assets.precompile += %w( tropical_shores.css )
+Rails.application.config.assets.precompile += %w( basic_styles.css )
+Rails.application.config.assets.precompile += %w(404.html 422.html 500.html)
+Rails.application.config.assets.paths << Rails.root.join('public')
+Rails.application.config.assets.register_mime_type('text/html', '.html')
+
 # Add additional assets to the asset load path
 # Rails.application.config.assets.paths << Emoji.images_path
 

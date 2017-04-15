@@ -13,4 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require Base_camp
+//= require bootstrap-sprockets
+//= require change_theme
+//= require_self
 //= require_tree .
