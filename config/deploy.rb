@@ -20,7 +20,6 @@ set :rbenv_roles, :all # default value
 
 #Rake::Task["deploy:assets:precompile"].clear_actions
 #Rake::Task["deploy:assets:backup_manifest"].clear_actions
-
 set :passenger_restart_with_touch, true
 #set :pty,             true
 #set :use_sudo,        false
