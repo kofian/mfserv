@@ -29,6 +29,7 @@ gem 'rufus-scheduler'
 gem 'recaptcha', :require => 'recaptcha/rails'
 gem 'ffaker'
 gem 'fabrication'
+gem 'forgery'
 
 #gem 'passenger'
 

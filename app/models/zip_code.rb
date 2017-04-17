@@ -1,4 +1,5 @@
 class ZipCode < ApplicationRecord
-	has_one :state
-	belongs_to :address
+	has_many :addresses
+        #belongs_to :address
+	belongs_to :state, foreign_key: 'state_abbreviation'
 end

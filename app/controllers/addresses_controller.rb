@@ -1,5 +1,6 @@
 class AddressesController < ApplicationController
-  before_filter :authenticate_user!
+ 
+   #before_action :authenticate_user!
   before_action :set_address, only: [:show, :destroy]
  before_action :set_address_edit, only: [:edit, :update]
 

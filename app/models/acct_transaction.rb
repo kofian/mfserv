@@ -1,7 +1,7 @@
 #class AcctTransaction < ApplicationRecord
 class AcctTransaction < ActiveRecord::Base	
     belongs_to :account
-    has_one :transaction_type
+    belongs_to :transaction_type
     has_many :wire_transfers
        
        accepts_nested_attributes_for :wire_transfers, reject_if: lambda {|attributes| attributes['acct_transaction_id'].blank?}, :allow_destroy => true    

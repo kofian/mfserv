@@ -1,4 +1,4 @@
 class TransactionType < ApplicationRecord
-	belongs_to :acct_transaction
-        belongs_to :recipient_detail
+	has_many :acct_transaction
+        has_many :recipient_detail
 end

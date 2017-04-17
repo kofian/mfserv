@@ -8,11 +8,11 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_one :customer, :dependent => :destroy
-  has_many :accounts, through: :customer
+  #has_many :accounts, through: :customer
   has_one :address, through: :customer
 
   accepts_nested_attributes_for :customer, :allow_destroy => true
-  accepts_nested_attributes_for :accounts, :allow_destroy => true
+  #accepts_nested_attributes_for :accounts, :allow_destroy => true
   accepts_nested_attributes_for :address, :allow_destroy => true
 
   has_one :administrator
