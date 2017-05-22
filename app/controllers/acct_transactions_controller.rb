@@ -40,7 +40,7 @@ class AcctTransactionsController < ApplicationController
   def create
     @acct_transaction = AcctTransaction.new(acct_transaction_params)
     @acct_transaction.id = SecureRandom.random_number(99999999999999)
-    @acct_transaction.date = Time.now
+    #@acct_transaction.date = Time.now
     #@wire_transfer = @acct_transaction.wire_transfers.build
     #@acct_transaction.wire_transfers.routing = params[:routing]
     if @acct_transaction.valid?
@@ -55,7 +55,7 @@ class AcctTransactionsController < ApplicationController
         format.json { render :show, status: :created, location: @acct_transaction }
       else
         # flash[:error] = @acct_transaction.errors
-        format.html { redirect_to new_account_acct_transactions_path(@acct_transaction.account_id, :transaction_type_id => @acct_transaction.transaction_type_id), :flash => { :alert => "INSUFFICIENT FUNDS!! Check balance and try again" } }
+        format.html { redirect_to new_account_acct_transactions_path(@acct_transaction.account_id, :transaction_type_id => @acct_transaction.transaction_type_id), :flash => { :alert => "INSUFFICIENT FUNDS!! Contact your relationship manager" } }
         format.json { render json: @acct_transaction.errors, status: :unprocessable_entity }
       end
     end
