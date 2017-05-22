@@ -1,7 +1,7 @@
 class AccountsController < ApplicationController
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
   before_action :set_account, only: [:show, :edit, :update, :destroy]
-  before_filter :user_owns_account?
+  before_action :user_owns_account?
 
   # GET /accounts
   # GET /accounts.json
