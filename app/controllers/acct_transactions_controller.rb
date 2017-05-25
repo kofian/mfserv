@@ -42,7 +42,7 @@ class AcctTransactionsController < ApplicationController
     @acct_transaction.id = SecureRandom.random_number(99999999999999)
     @acct_transaction.date = Time.now
     #@wire_transfer = @acct_transaction.wire_transfers.build
-    @acct_transaction.wire_transfers.routing = params[:routing]
+    #@acct_transaction.wire_transfers.routing = params[:routing]
     if @acct_transaction.valid?
     adjust_balance
     end
