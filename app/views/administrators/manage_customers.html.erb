@@ -36,4 +36,32 @@
   <br />
   <%= link_to 'Back', :back, :class => "btn btn-primary formButton"  %>
    <%= link_to 'Create Customer', new_user_registration_path, :class => "btn btn-primary formButton"  %>
+   
+   <br />
+    <%= paginate (@users) %>
+    <table id="indexTable" class="table table-striped">
+      <thead>
+        <tr>
+          <th>User ID</th>
+          <th class="hide-small">UserName</th>
+          
+          <th colspan="2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+          <% @users.each do |user| %>
+          <tr>
+            <td><%= user.id %></td>
+            <td class="hide-small"><%= user.email %>, <%= user.username %></td>
+            
+            <td><%= link_to 'Edit', edit_user_path(user), :class => "btn btn-default" %></td>
+            <td><%= link_to 'Details', user_path(user), :class => "btn btn-default" %></td>
+             <td><%= link_to 'Add Customer', new_user_customer_path(user), :class => "btn btn-default" %></td>            
+
+          </tr>
+          <% end %>
+      </tbody>
+    </table>
+    <%= paginate (@users) %>
+  <br />
 <% end %>

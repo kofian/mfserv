@@ -5,10 +5,12 @@
   <h2 class="h3">Proceed to your account</h2>
   <p>
   	<% if user_signed_in? %>
-  	<h4>You're already signed in, <%= current_user.username %>. Would you like to</h4>
+  	
       <% unless admin? %>
-       <span role=button><%= link_to "View Your Accounts?", accounts_path(current_user), :class => "btn btn-warning btn-lg" %></span>
+      <h4>You're already signed in, <%= my_customer.name %>. Would you like to</h4>
+       <span role=button><%= link_to "View Your Accounts?", customerview_customer_path(my_customer), :class => "btn btn-warning btn-lg" %></span>
       <% else %>
+      <h4>You're already signed in, <%= current_user.username %>. Would you like to</h4>
       <span role=button><%= link_to 'Continue to Administrator Dashboard', adminview_administrator_path(current_user), :class => 'btn btn-warning btn-lg' %></span>
       <% end %>
     	<h4>or</h4>
@@ -21,7 +23,7 @@
   <br />
   <p style="font-size: 10pt; color: #000; background: #EEE">
   Phone: 800-555-1212<br />
-  E-mail: <%= mail_to "al.abdimi@gmail.com", "accounts@witcofinance.com", :style=>"color: #000;font-size: 10pt;" %>
+  E-mail: <%= mail_to "al.abdimi@gmail.com", "accounts@meijerfinance.com", :style=>"color: #000;font-size: 10pt;" %>
 </p>
 </aside>
   <div id="homeCarousel" class="carousel slide" data-interval="3000" data-ride="carousel">

@@ -1,3 +1,4 @@
+<% content_for :admin_content do %>
 <!-- <p id="notice"><%= notice %></p> -->
 <div id="panel">
 	<h2>Customer Details</h2>
@@ -19,5 +20,7 @@
 	<div id="links-block">
 	<%= link_to 'Edit', edit_customer_path(@customer) , :class => "btn btn-warning formButton" %>
 	<%= link_to 'Back', manage_customers_administrator_path, :class => "btn btn-primary formButton"  %>
+	<%= link_to 'Create Account', create_customer_account_administrator_path(@customer), :class => "btn btn-primary formButton"  %>
 </div>
 </div>
+<% end %>

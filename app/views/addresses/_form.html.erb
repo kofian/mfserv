@@ -1,7 +1,7 @@
 
   <div class="panel panel-default formPanel" style="width: 50%; padding: 0 25px;">  
 
-  <%= bootstrap_form_for(@address) do |f| %>
+  <%= bootstrap_form_for(@address, url: customer_address_path) do |f| %>
   <% if @address.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@address.errors.count, "error") %> prohibited this address from being saved:</h2>
@@ -20,12 +20,12 @@
         <%= f.text_field :address1, autofocus: true, :label => "Address 1", required: true %>
         <%= f.text_field :address2, :label => "Address 2" %>
         <%= f.text_field :zip_code_zip_code, :label => "Zip Code", required: true%>
-        <%= f.hidden_field :customer_id, :value => params[:customer_id] %>
+        <%= f.text_field :customer_id, :value => params[:customer_id] %>
 
       <br />
       <div class="actions">
         <ul id="formButtonGroup">
-          <% if current_user.role == 'admin' %>
+          <% unless current_user.role == 'admin' %>
             <li><%= f.submit "Update", :class => "btn btn-primary"%></li>
           <% else %>
             <li><%= f.submit "Finish", :class => "btn btn-success" %></li>

@@ -30,6 +30,7 @@ gem 'recaptcha', :require => 'recaptcha/rails'
 gem 'ffaker'
 gem 'fabrication'
 gem 'forgery'
+gem 'nested_form'
 
 #gem 'passenger'
 

@@ -16,6 +16,7 @@
 //= require turbolinks
 //= require Base_camp
 //= require bootstrap-sprockets
+//= require jquery_nested_form
 //= require change_theme
 //= require_self
 //= require_tree .

@@ -1,0 +1,23 @@
+<!-- include the "Customer Dashboard" menu -->
+
+<div id="panel">
+  <div class="navbar navbar-inverse" role="navigation">
+      <div class="container-fluid admin-nav">
+        <h2 style="color:#FFF;">Welcome <%= my_customer.name %> </h2>
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="tab" class="<%= 'active' if current_page?(manage_accounts_customer_path(:id => my_customer.id)) %>"><%= link_to "Manage Accounts",  manage_accounts_customer_path(:id => my_customer.id), :class=>"tab_link" %></li>
+            <li role="tab" class="<%= 'active' if current_page?(manage_coin_accounts_customer_path(:id => my_customer.id)) %>"><%= link_to "Manage Coin Accounts", manage_coin_accounts_customer_path(:id => my_customer.id), :class=>"tab_link"  %></li>
+            <li role="tab" class="<%= 'active' if current_page?(manage_acct_transactions_customer_path(:id => my_customer.id)) %>">
+                
+              <td class="dropdown"><a href="#" class="dropdown-toggle btn-lg btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Manage Funds Transfer<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu"><% my_customer.accounts.each do |account| %>
+               <li role="tab" ><%= link_to "Transfer from #{account.id}", new_customer_account_acct_transaction_path(my_customer,account, :transaction_type_id => 6), :class => "btn btn-default" %> </li>
+               <!--<li role="tab" ><%#= link_to 'Wire Transfer', new_customer_account_acct_transaction_path(my_customer,:account_id => :id, :transaction_type_id => 9), :class => "btn btn-default" %> </li>-->
+             <% end %></ul></td>
+             </li>
+            <li role="tab" class="<%= 'active' if current_page?(manage_investment_funds_customer_path(:id => my_customer.id)) %>"><%= link_to "Manage Investment Fund", manage_investment_funds_customer_path(:id => my_customer.id), :class=>"tab_link"  %></li>
+             </ul>
+      </div>
+  </nav>
+</div>
+

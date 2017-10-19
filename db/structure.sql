@@ -2,11 +2,12 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.6
--- Dumped by pg_dump version 9.5.6
+-- Dumped from database version 9.6.5
+-- Dumped by pg_dump version 9.6.5
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -55,8 +56,9 @@ CREATE TABLE accounts (
     id bigint NOT NULL,
     balance numeric(10,2) NOT NULL,
     date_opened timestamp without time zone NOT NULL,
-    customer_id bigint NOT NULL,
+    customer_id uuid NOT NULL,
     acct_type_id smallint NOT NULL,
+    status character varying DEFAULT 'active'::character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -74,6 +76,7 @@ CREATE TABLE acct_transactions (
     account_id bigint NOT NULL,
     transaction_type_id integer NOT NULL,
     adjusted_bal numeric(10,2) NOT NULL,
+    status character varying DEFAULT 'pending'::character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -86,7 +89,8 @@ CREATE TABLE acct_transactions (
 CREATE TABLE acct_types (
     id integer NOT NULL,
     name character varying(14),
-    interest_rate numeric(3,3) DEFAULT 0.0 NOT NULL
+    interest_rate numeric(3,3) DEFAULT 0.0 NOT NULL,
+    status character varying DEFAULT 'active'::character varying
 );
 
 
@@ -114,7 +118,7 @@ ALTER SEQUENCE acct_types_id_seq OWNED BY acct_types.id;
 --
 
 CREATE TABLE addresses (
-    customer_id bigint NOT NULL,
+    customer_id uuid NOT NULL,
     address1 character varying(100) NOT NULL,
     address2 character varying(100),
     zip_code_zip_code character varying(5) NOT NULL
@@ -126,7 +130,7 @@ CREATE TABLE addresses (
 --
 
 CREATE TABLE administrators (
-    id bigint NOT NULL,
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
     firstname character varying(40) NOT NULL,
     lastname character varying(40) NOT NULL,
     user_id uuid DEFAULT uuid_generate_v4() NOT NULL,
@@ -148,17 +152,128 @@ CREATE TABLE ar_internal_metadata (
 
 
 --
+-- Name: coin_accounts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE coin_accounts (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    bitcoin_acct character varying NOT NULL,
+    customer_id uuid NOT NULL,
+    balance numeric(10,2) NOT NULL,
+    date_opened timestamp without time zone NOT NULL,
+    acct_type_id smallint NOT NULL,
+    status character varying DEFAULT 'active'::character varying
+);
+
+
+--
 -- Name: customers; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE customers (
-    id bigint NOT NULL,
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
     phone1 character varying(20),
     phone2 character varying(20),
     title character varying(11),
     firstname character varying(40),
     lastname character varying(40),
-    user_id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    user_id uuid NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: equities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE equities (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    customer_id uuid NOT NULL,
+    risk_id uuid NOT NULL,
+    certificat_number character varying,
+    issue_date character varying,
+    equity_type_id character varying,
+    equity_period daterange,
+    bill_currency character varying,
+    agency_code character varying,
+    passport_number character varying,
+    profession character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: equity_types; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE equity_types (
+    id integer NOT NULL,
+    name character varying,
+    description character varying,
+    status character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: equity_types_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE equity_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: equity_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE equity_types_id_seq OWNED BY equity_types.id;
+
+
+--
+-- Name: payees; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE payees (
+    ref_name character varying,
+    bank_name character varying NOT NULL,
+    routing_number character varying,
+    swift_code character varying,
+    address character varying NOT NULL,
+    acct_number bigint NOT NULL,
+    status character varying DEFAULT 'active'::character varying,
+    city character varying NOT NULL,
+    state character varying,
+    country character varying NOT NULL,
+    post_code character varying NOT NULL,
+    phone character varying,
+    acct_transaction_id bigint NOT NULL,
+    payee_type character varying DEFAULT 'credit'::character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: risks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE risks (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    description character varying NOT NULL,
+    name character varying NOT NULL,
+    location character varying NOT NULL,
+    interest_rate character varying NOT NULL,
+    situation character varying NOT NULL,
+    amount_covered numeric(10,2) NOT NULL,
+    contribution numeric(10,2) NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -292,28 +407,35 @@ CREATE TABLE zip_codes (
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: acct_types id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY acct_types ALTER COLUMN id SET DEFAULT nextval('acct_types_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: equity_types id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY equity_types ALTER COLUMN id SET DEFAULT nextval('equity_types_id_seq'::regclass);
+
+
+--
+-- Name: states id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY states ALTER COLUMN id SET DEFAULT nextval('states_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: wire_transfers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY wire_transfers ALTER COLUMN id SET DEFAULT nextval('wire_transfers_id_seq'::regclass);
 
 
 --
--- Name: accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: accounts accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY accounts
@@ -321,7 +443,7 @@ ALTER TABLE ONLY accounts
 
 
 --
--- Name: acct_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: acct_transactions acct_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY acct_transactions
@@ -329,7 +451,7 @@ ALTER TABLE ONLY acct_transactions
 
 
 --
--- Name: acct_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: acct_types acct_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY acct_types
@@ -337,7 +459,7 @@ ALTER TABLE ONLY acct_types
 
 
 --
--- Name: addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: addresses addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY addresses
@@ -345,7 +467,7 @@ ALTER TABLE ONLY addresses
 
 
 --
--- Name: administrators_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: administrators administrators_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY administrators
@@ -353,7 +475,7 @@ ALTER TABLE ONLY administrators
 
 
 --
--- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY ar_internal_metadata
@@ -361,7 +483,15 @@ ALTER TABLE ONLY ar_internal_metadata
 
 
 --
--- Name: customers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: coin_accounts coin_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY coin_accounts
+    ADD CONSTRAINT coin_accounts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: customers customers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY customers
@@ -369,7 +499,39 @@ ALTER TABLE ONLY customers
 
 
 --
--- Name: schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: equities equities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY equities
+    ADD CONSTRAINT equities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: equity_types equity_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY equity_types
+    ADD CONSTRAINT equity_types_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: payees payees_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY payees
+    ADD CONSTRAINT payees_pkey PRIMARY KEY (acct_number);
+
+
+--
+-- Name: risks risks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY risks
+    ADD CONSTRAINT risks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY schema_migrations
@@ -377,7 +539,7 @@ ALTER TABLE ONLY schema_migrations
 
 
 --
--- Name: states_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: states states_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY states
@@ -385,7 +547,7 @@ ALTER TABLE ONLY states
 
 
 --
--- Name: transaction_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: transaction_types transaction_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY transaction_types
@@ -393,7 +555,7 @@ ALTER TABLE ONLY transaction_types
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users
@@ -401,7 +563,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: wire_transfers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: wire_transfers wire_transfers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY wire_transfers
@@ -409,11 +571,18 @@ ALTER TABLE ONLY wire_transfers
 
 
 --
--- Name: zip_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: zip_codes zip_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY zip_codes
     ADD CONSTRAINT zip_codes_pkey PRIMARY KEY (zip_code);
+
+
+--
+-- Name: BY_DATE; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX "BY_DATE" ON acct_transactions USING btree (date, id);
 
 
 --
@@ -487,10 +656,59 @@ CREATE INDEX fk_administrators_users_idx ON administrators USING btree (user_id)
 
 
 --
+-- Name: fk_coin_accounts_acct_types1_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fk_coin_accounts_acct_types1_idx ON coin_accounts USING btree (acct_type_id);
+
+
+--
+-- Name: fk_coin_accounts_bitcoin_acct1_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fk_coin_accounts_bitcoin_acct1_idx ON coin_accounts USING btree (bitcoin_acct);
+
+
+--
+-- Name: fk_coin_accounts_customers1_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fk_coin_accounts_customers1_idx ON coin_accounts USING btree (customer_id);
+
+
+--
 -- Name: fk_customers_users1_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX fk_customers_users1_idx ON customers USING btree (user_id);
+
+
+--
+-- Name: fk_payees_acct_number1_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fk_payees_acct_number1_idx ON payees USING btree (acct_number);
+
+
+--
+-- Name: fk_payees_acct_transaction1_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fk_payees_acct_transaction1_idx ON payees USING btree (acct_transaction_id);
+
+
+--
+-- Name: fk_payees_bank_name1_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fk_payees_bank_name1_idx ON payees USING btree (bank_name);
+
+
+--
+-- Name: fk_payees_payee_type1_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fk_payees_payee_type1_idx ON payees USING btree (payee_type);
 
 
 --
@@ -505,6 +723,20 @@ CREATE INDEX fk_wire_transactions_types1_idx ON wire_transfers USING btree (acct
 --
 
 CREATE INDEX fk_zip_codes_states1_idx ON zip_codes USING btree (state_abbreviation);
+
+
+--
+-- Name: index_equities_on_customer_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_equities_on_customer_id ON equities USING btree (customer_id);
+
+
+--
+-- Name: index_equities_on_risk_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_equities_on_risk_id ON equities USING btree (risk_id);
 
 
 --
@@ -539,6 +771,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170415031846'),
 ('20170415032504'),
 ('20170415032731'),
-('20170415033117');
+('20170415033117'),
+('20171014060049'),
+('20171016141244'),
+('20171016141759'),
+('20171016141924');
 
 

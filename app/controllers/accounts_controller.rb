@@ -1,13 +1,16 @@
 class AccountsController < ApplicationController
+  layout "customer"
   before_action :authenticate_user!
+  before_action :admin?, only: [:destroy]
   before_action :set_account, only: [:show, :edit, :update, :destroy]
   before_action :user_owns_account?
 
   # GET /accounts
   # GET /accounts.json
   def index
-    @user = current_user
-    @accounts = @user.accounts
+   # @user = current_user
+   @customer = Customer.find_by_user_id(current_user.id)
+    @accounts = @customer.accounts
 
   end
 
@@ -60,7 +63,7 @@ class AccountsController < ApplicationController
     # @user = User.find(params[:user_id])
     @account = Account.new
     @account.id = SecureRandom.random_number(999999999999)
-    @account.customer_id = current_user.customer.id
+    #@account.customer_id = current_user.customer.id
     @account.balance = 0
     @account.date_opened = Time.now.to_date
 
@@ -79,17 +82,18 @@ class AccountsController < ApplicationController
   def create
     @account = Account.new(account_params)
     @account.id = SecureRandom.random_number(999999999999)
-    @account.customer_id = current_user.customer.id
+    #@account.customer_id = current_user.customer.id
+    @customer = Customer.find(@account.customer_id)
     @account.balance = 0
     @account.date_opened = Time.now.to_date
 
     respond_to do |format|
       if @account.save
-        if current_user.accounts.count > 1
-          format.html { redirect_to accounts_path(current_user), notice: 'CONGRATULATIONS, your new account was successfully created!' }
+        if @customer.accounts.count > 1
+          format.html { redirect_to manage_customers_administrator_path(current_user), notice: 'CONGRATULATIONS, your new account was successfully created!' }
           format.json { render :show, status: :created, location: @account }
         else
-        format.html { redirect_to new_user_addresses_path(current_user), notice: 'Great! Just one more step..' }
+        format.html { redirect_to new_customer_address_path(@account.customer), notice: 'Great! Just one more step..' }
         format.json { render :show, status: :created, location: @account }
         end
       else
@@ -144,7 +148,7 @@ class AccountsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def account_params
-      params.require(:account).permit(:acct_type_id)
+      params.require(:account).permit(:customer_id, :acct_type_id)
     end
 
     # User may only access their own account(s), unless they are admin

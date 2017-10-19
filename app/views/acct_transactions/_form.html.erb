@@ -7,7 +7,7 @@
 <main>
 <div class="panel" style="margin: 10px; padding: 20px;">  
 
-  <%= bootstrap_form_for(@acct_transaction) do |f| %>
+  <%= bootstrap_nested_form_for(@acct_transaction) do |f| %>
   <% if @acct_transaction.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@acct_transaction.errors.count, "error") %> prohibited this transaction from being saved:</h2>
@@ -19,14 +19,32 @@
       </ul>
   <% end %>
         <!-- pre-filled (static) fields -->
-        <p>Transaction Type: <strong><%= @trans_type %></strong>
+        
+        <%#= f.select :transaction_type_id, TransactionType.all.collect {|p| [ p.name, p.id ] }, class: "selectpicker btn-lg btn-default",prompt: 'Select Transaction type' %>
+        
           <br />
           Date: <strong><%= Time.now.to_date %></strong></p>
         <!-- fields for AcctTransaction object -->
         <%= f.text_field :description, :style =>"max-width: 550px;" %>
         <%= f.text_field :amount, :style =>"width: 160px;" %>
         <%= f.hidden_field :account_id, :value => params[:account_id] %>
-        <%= f.hidden_field :transaction_type_id, :value => @acct_transaction.transaction_type_id %>
+        <%= f.hidden_field :transaction_type_id, :value => params[:transaction_type_id] %>
+        <%#= f.hidden_field :transaction_type_id, :value => @acct_transaction.transaction_type_id %>
+          <%= f.fields_for :payee do |fa| %>
+           <%= fa.text_field :account_number, required: true %>
+           <%= fa.text_field :ref_name %>
+           <%= fa.text_field :bank_name, required: true %>
+           <%= fa.text_field :routing_number %>
+           <%= fa.text_field :swift_code %>
+           <%= fa.text_field :address, required: true %>
+           <%= fa.text_field :city, required: true %>
+           <%= fa.text_field :state, required: true %>
+           <%= fa.text_field :country, required: true %>
+           <%= fa.text_field :post_code, required: true %>
+           <%= fa.text_field :phone %>
+           <%= fa.select :title, options_for_select(['Debit', 'Credit']) %>
+           <%#= f.hidden_field :acct_transaction_id, :value => params[:acct_transaction_id] %>
+          <% end %>
       <div class="actions">
         <%= f.submit "Complete Transaction", :class => "btn btn-info"%>
       </div>

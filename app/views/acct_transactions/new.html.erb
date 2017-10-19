@@ -4,9 +4,10 @@
       acct_transactions/new.html.erb
 -->
 <!-- Dynamically generated partial for new AcctTransaction model -->
+<% content_for :customer_content do %>
 <h2>New Account Transaction for Account No. <%= params[:account_id] %></h2>
 
-<% if params[:transaction_type_id] = 9 %>
+<% unless params[:transaction_type_id] = 9 %>
 <%= render 'wireform' %>
 <% else %>
 <%= render 'form' %>
@@ -15,5 +16,6 @@
 <%#= render 'form' %>
 
 <div id="links-block">
-<%= link_to 'Back', accounts_path(current_user), :class => 'btn btn-primary' %>
+<%= link_to 'Back', :back, :class => "btn btn-primary formButton" %>
 </div>
+<% end %>

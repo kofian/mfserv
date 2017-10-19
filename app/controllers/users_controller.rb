@@ -35,7 +35,8 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'Nice! Now for the next part..' }
+        #format.html { redirect_to @user, notice: 'Nice! Now for the next part..' }new_user_customers
+        format.html { redirect_to new_user_customers_path, notice: 'Nice! Now for the next part..' }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }

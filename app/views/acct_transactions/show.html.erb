@@ -15,6 +15,7 @@
 			<li>Date: <%= @acct_transaction.date%></li>
 			<li>Amount: <%= number_to_currency(@acct_transaction.amount)%></li>
 			<li>Description: <%= @acct_transaction.description %></li>
+			<li>Payee Bank: <%= @payee.bank_name %></li>
     <% unless @wire_transfer.nil? %>
     <li>Recipient Name: <%= @wire_transfer.recipient_name %></li>
     <li>Amount Credited: <%= @wire_transfer.credited %></li>

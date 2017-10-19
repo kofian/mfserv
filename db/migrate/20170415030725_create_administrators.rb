@@ -1,7 +1,8 @@
 class CreateAdministrators < ActiveRecord::Migration[5.0]
   def up
+    enable_extension 'uuid-ossp'
     create_table "administrators", id: :uuid, id: false, default: "uuid_generate_v4()", force: true do |t|
-      t.integer "id",        limit: 8,  null: false
+      t.uuid "id", default: "uuid_generate_v4()", null: false, unique: true
       t.string  "firstname", limit: 40, null: false
       t.string  "lastname",  limit: 40, null: false
       t.uuid    "user_id", default: "uuid_generate_v4()", null: false

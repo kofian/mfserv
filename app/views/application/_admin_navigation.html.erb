@@ -1,4 +1,5 @@
-<!-- include the "Admin Dashboard" menu -->
+<!-- include the "Customer Dashboard" menu -->
+
 <div id="panel">
   <div class="navbar navbar-inverse" role="navigation">
       <div class="container-fluid admin-nav">
@@ -7,7 +8,9 @@
             <li role="tab" class="<%= 'active' if current_page?(manage_accounts_administrator_path) %>"><%= link_to "Manage Accounts", manage_accounts_administrator_path, :class=>"tab_link" %></li>
             <li role="tab" class="<%= 'active' if current_page?(manage_customers_administrator_path) %>"><%= link_to "Manage Customers", manage_customers_administrator_path, :class=>"tab_link"  %></li>
             <li role="tab" class="<%= 'active' if current_page?(manage_acct_transactions_administrator_path) %>"><%= link_to "Manage Transactions", manage_acct_transactions_administrator_path, :class=>"tab_link" %></li>
+            <li role="tab" class="<%= 'active' if current_page?(manage_equities_administrator_path) %>"><%= link_to "Manage Equities", manage_equities_administrator_path, :class=>"tab_link" %></li>
         </ul>
       </div>
   </nav>
 </div>
+

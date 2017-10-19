@@ -1,4 +1,5 @@
 class AcctTransactionsController < ApplicationController
+  layout "customer"
   before_action :authenticate_user!
   before_action :set_acct_transaction, only: [:show, :edit, :update, :destroy]
 
@@ -12,6 +13,7 @@ class AcctTransactionsController < ApplicationController
   # GET /acct_transactions/1.json
   def show
     @account = Account.find(@acct_transaction.account_id)
+    @payee = Payee.find_by_acct_transaction_id(params[:id])
     #@recipient = Account.find(@acct_transaction.recipient_acct)
     if @acct_transaction.wire_transfers.present?
     @wire_transfer = @acct_transaction.wire_transfers.find_by_acct_transaction_id(params[:id])    
@@ -24,11 +26,11 @@ class AcctTransactionsController < ApplicationController
       @acct_transaction.id = SecureRandom.random_number(99999999999999)
       @acct_transaction.account_id = params[:account_id]
       @acct_transaction.date = Time.now
-      @acct_transaction.transaction_type_id = params[:transaction_type_id]
+      #@acct_transaction.transaction_type_id = params[:transaction_type_id]
       @acct_transaction.amount = params[:amount]
       @wire_transfer = @acct_transaction.wire_transfers.new
     # for the view - show 'name' of transaction types
-    @trans_type = TransactionType.find(params[:transaction_type_id]).name
+    #@trans_type = TransactionType.find(params[:transaction_type_id]).name
   end
 
   # GET /acct_transactions/1/edit
@@ -41,6 +43,7 @@ class AcctTransactionsController < ApplicationController
     @acct_transaction = AcctTransaction.new(acct_transaction_params)
     @acct_transaction.id = SecureRandom.random_number(99999999999999)
     @acct_transaction.date = Time.now
+    @acct_transaction.transaction_type_id = params[:transaction_type_id]
     #@wire_transfer = @acct_transaction.wire_transfers.build
     #@acct_transaction.wire_transfers.routing = params[:routing]
     if @acct_transaction.valid?
@@ -51,11 +54,11 @@ class AcctTransactionsController < ApplicationController
       if @acct_transaction.save
         modify_acct_balance
         logger.info "Transaction was just created"
-        format.html { redirect_to @acct_transaction, notice: 'Acct transaction was successfully created.' }
+        format.html { redirect_to new_acct_transaction_payee_path(@acct_transaction), notice: 'Acct transaction was successfully created.' }
         format.json { render :show, status: :created, location: @acct_transaction }
       else
         # flash[:error] = @acct_transaction.errors
-        format.html { redirect_to new_account_acct_transactions_path(@acct_transaction.account_id, :transaction_type_id => @acct_transaction.transaction_type_id), :flash => { :alert => "INSUFFICIENT FUNDS!! Contact your relationship manager" } }
+        format.html { redirect_to :back, :flash => { :alert => "INSUFFICIENT FUNDS!! Contact your relationship manager" } }
         format.json { render json: @acct_transaction.errors, status: :unprocessable_entity }
       end
     end
@@ -93,7 +96,8 @@ class AcctTransactionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def acct_transaction_params
-      params.require(:acct_transaction).permit(:account_id, :recipient_acct, :transaction_type_id, :description, :amount, :adjusted_bal, wire_transfers_attributes:[:id, :acct_transaction_id, :routing])
+      params.require(:acct_transaction).permit(:account_id, :recipient_acct, :transaction_type_id, :description, :amount, :adjusted_bal, wire_transfers_attributes:[:id, :acct_transaction_id, :routing],
+      payee_attributes: [:acct_transaction_id, :ref_name, :bank_name, :address, :acct_number, :city, :state,:country, :post_code,:phone, :payee_type, :routing_number, :swift_code])
     end
     
 
@@ -103,8 +107,10 @@ class AcctTransactionsController < ApplicationController
      #@recipient = Account.find(@acct_transaction.recipient_acct)
    case @acct_transaction.transaction_type_id
     when 1,2,4,5,7
-        @account.update_attributes!(balance: account.balance - @acct_transaction.amount)
-    when 3,6,8
+        @account.update_attributes!(balance: @account.balance - @acct_transaction.amount)
+    when 3
+       @account.update_attributes!(balance: @account.balance + @acct_transaction.amount)
+    when 6,8
      @recipient = Account.find(@acct_transaction.recipient_acct)
      ActiveRecord::Base.transaction do
       @account.update(balance: @account.balance - @acct_transaction.amount)
@@ -120,8 +126,10 @@ class AcctTransactionsController < ApplicationController
   end
     def adjust_balance
       case @acct_transaction.transaction_type_id
-          when 1,2,3,4,5,7
+          when 1,2,4,5,7
             @acct_transaction.adjusted_bal = Account.find(@acct_transaction.account_id).balance - @acct_transaction.amount
+            when 3
+              @acct_transaction.adjusted_bal = Account.find(@acct_transaction.account_id).balance + @acct_transaction.amount
           when 6,8
             @acct_transaction.adjusted_bal = Account.find(@acct_transaction.account).balance - @acct_transaction.amount
           when 9

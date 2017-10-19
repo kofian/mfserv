@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
+  require 'kitco'
+
   @account_active == true;
 
   protect_from_forgery with: :exception
@@ -20,6 +22,7 @@ class ApplicationController < ActionController::Base
   #   new_user_customers_path(current_user)
   # end
   helper_method :admin?
+  helper_method :my_customer
 
   protected
   	def configure_permitted_parameters
@@ -31,4 +34,20 @@ class ApplicationController < ActionController::Base
     def admin?
      current_user.role == "admin"
     end
+    
+    def my_customer
+     Customer.find_by_user_id(current_user.id)
+    end
+
+   def kitco
+    @gold = Kitco.gold
+    @silver = Kitco.silver
+    @platinum = Kitco.platinum
+    @palladium = Kitco.palladium
+    @rhodium = Kitco.rhodium
+   end
+   def getaddrinfo_tmp
+     logger.error "Failed to open TCP connection to charts.kitco.com:80"
+     #notice: 'Failed to connect to charts.kitco.com'
+   end
 end

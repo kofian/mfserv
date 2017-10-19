@@ -1,7 +1,7 @@
 
   <div class="panel panel-default formPanel">  
 
-  <%= bootstrap_form_for(@customer) do |f| %>
+  <%= bootstrap_nested_form_for(@customer) do |f| %>
   <% if @customer.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@customer.errors.count, "error") %> prohibited this customer from being saved:</h2>
@@ -23,7 +23,8 @@
         <%= f.text_field :lastname, required: true %>
         <%= f.text_field :phone1, required: true %>
         <%= f.text_field :phone2 %>
-        <%= fields_for :address do |fa| %>
+        <%= f.text_field :user_id, required: true %>
+        <%= f.fields_for :address do |fa| %>
           <%= fa.text_field :address1, required: true %>
           <%= fa.text_field :address2 %>
           <%= fa.text_field :zip_code_zip_code, required: true %>

@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Risks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Name</th>
+      <th>Location</th>
+      <th>Interest rate</th>
+      <th>Situation</th>
+      <th>Amount covered</th>
+      <th>Contribution</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @risks.each do |risk| %>
+      <tr>
+        <td><%= risk.description %></td>
+        <td><%= risk.name %></td>
+        <td><%= risk.location %></td>
+        <td><%= risk.interest_rate %></td>
+        <td><%= risk.situation %></td>
+        <td><%= risk.amount_covered %></td>
+        <td><%= risk.contribution %></td>
+        <td><%= link_to 'Show', risk %></td>
+        <td><%= link_to 'Edit', edit_risk_path(risk) %></td>
+        <td><%= link_to 'Destroy', risk, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Risk', new_risk_path %>

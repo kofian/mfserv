@@ -1,23 +1,38 @@
+<div class="container">
 <h1>Listing addresses</h1>
+  <div class="row">
+    <div class="col-md-2">
+      Advert here
+    </div>
+    
+    <div class="col-md-10">
 
-<table>
+
+   <table class="table-striped table-bordered">
   <thead>
     <tr>
-      <th colspan="3"></th>
+      <th colspan="#"></th>
+      <td>Name</td>
     </tr>
   </thead>
 
   <tbody>
     <% @addresses.each do |address| %>
       <tr>
-        <td><%= link_to 'Show', address %></td>
-        <td><%= link_to 'Edit', edit_address_path(address) %></td>
-        <td><%= link_to 'Destroy', address, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th scope="row"></th>
+        <td><%= address.customer.firstname %> <%= address.customer.lastname %></td>
+        <td><%= link_to 'Show', customer_address_path(:id => address.id) %></td>
+        <td><%= link_to 'Edit', edit_customer_address_path(:id => address.id) %></td>
+        <td><%= link_to 'Destroy', customer_address_path(:id => address.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
-</table>
+  </table>
+  
+    </div>
+</div>  
+<br/>
 
-<br>
+<%= link_to 'New Address', new_customer_address_path %>
 
-<%= link_to 'New Address', new_address_path %>
+</div>

@@ -1,0 +1,58 @@
+<main>
+<div class="panel" style="margin: 10px; padding: 20px;">
+  
+<%= bootstrap_form_for(risk) do |f| %>
+  <% if risk.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(risk.errors.count, "error") %> prohibited this risk from being saved:</h2>
+
+      <ul>
+      <% risk.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%#= f.label :description %>
+    <%= f.text_field :description %>
+  </div>
+
+  <div class="field">
+    <%#= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%#= f.label :location %>
+    <%= f.text_field :location %>
+  </div>
+
+  <div class="field">
+    <%#= f.label :interest_rate %>
+    <%= f.text_field :interest_rate %>
+  </div>
+
+  <div class="field">
+    <%#= f.label :situation %>
+    <%= f.text_field :situation %>
+  </div>
+
+  <div class="field">
+    <%#= f.label :amount_covered %>
+    <%= f.text_field :amount_covered %>
+  </div>
+
+  <div class="field">
+    <%#= f.label :contribution %>
+    <%= f.text_field :contribution %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+  </div>
+</main>

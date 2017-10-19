@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Equity Types</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @equity_types.each do |equity_type| %>
+      <tr>
+        <td><%= equity_type.name %></td>
+        <td><%= equity_type.description %></td>
+        <td><%= equity_type.status %></td>
+        <td><%= link_to 'Show', equity_type %></td>
+        <td><%= link_to 'Edit', edit_equity_type_path(equity_type) %></td>
+        <td><%= link_to 'Destroy', equity_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Equity Type', new_equity_type_path %>

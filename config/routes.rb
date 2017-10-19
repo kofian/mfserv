@@ -1,11 +1,5 @@
-#Rails.application.routes.draw do
-#  devise_for :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-# root 'home#index'
-
-#end
-
 Rails.application.routes.draw do
+ 
   devise_for :users, :controllers => { :registrations => "registrations" }
 
   devise_scope :user do
@@ -37,27 +31,57 @@ Rails.application.routes.draw do
       get :manage_accounts
       get :manage_customers
       get :manage_acct_transactions
-
+      get :manage_equities
+      get :create_customer_account
     end
   end
 
+  
   resources :users do
-    resource :customers
-    resource :accounts
-    resource :addresses
-  end
-
-  resources :accounts do
-    resource :acct_transactions
-    resource :wire_transfers
+    resources :customers
   end
 
   resources :customers do
-   resources :addresses, :accounts
+   resources :accounts do
+    resources :acct_transactions 
+   end
+  end 
+    
+  resources :accounts do
+    resources :acct_transactions 
+    resource :wire_transfers
   end
-
-  resources :account_types, :accounts, :addresses, :administrators, :customers, :transaction_types, :acct_transactions, :users, :recipient_details
-
+  resources :coin_accounts do
+    resource :acct_transactions
+  end  
+  resources :acct_transactions do
+      resources :payees
+    end
+  resources :customers do
+   resources :addresses, :accounts, :coin_accounts, :equities
+    member do
+      get :manage_accounts
+      get :manage_coin_accounts
+      get :manage_acct_transactions
+      get :customerview
+      get :manage_investment_funds
+      
+    end   
+  end
+  resources :customers do
+    resources :risks, only:[:index,:show,:destroy]
+    #resources :equities, only:[:index,:show,:destroy]
+  end
+  resources :state do
+     resources :zip_codes
+  end   
+  resources :risks do
+    resources :equities 
+  end
+  resources :account_types, :accounts, :addresses, :administrators, :customers, :transaction_types, :acct_transactions, :users
+  resources :payees, :coin_accounts, :equity_types, :equities
+  
+  #resources :payees, :transaction_types
 # The priority is based upon order of creation: first created -> highest priority.
 # See how all your routes lay out with "rake routes".
 # You can have the root of your site routed with "root"

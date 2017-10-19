@@ -1,8 +1,8 @@
 class Address < ApplicationRecord
 	belongs_to :customer
-	belongs_to :user
+	#belongs_to :user
 
-	belongs_to :zip_code
+	#belongs_to :zip_code
 	#has_one :state, through: :zip_code
 
 	#accepts_nested_attributes_for :zip_code, :allow_destroy => false
@@ -15,8 +15,8 @@ class Address < ApplicationRecord
   def check_zip
     if ZipCode.where(:zip_code => zip_code_zip_code).blank?
       errors.add(:base, 'Not a real zip code')
-	else
-	# Zip Code is valid
-	end
+	   else
+	    # Zip Code is valid
+	  end
   end
 end

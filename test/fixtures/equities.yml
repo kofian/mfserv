@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  customer_id: MyString
+  risk_id: MyString
+  certificat_number: MyString
+  issue_date: MyString
+  equity_type_id: MyString
+  equity_period: MyString
+  bill_currency: MyString
+  agency_code: MyString
+  passport_number: MyString
+  profession: MyString
+
+two:
+  customer_id: MyString
+  risk_id: MyString
+  certificat_number: MyString
+  issue_date: MyString
+  equity_type_id: MyString
+  equity_period: MyString
+  bill_currency: MyString
+  agency_code: MyString
+  passport_number: MyString
+  profession: MyString
