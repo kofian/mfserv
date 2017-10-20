@@ -23,7 +23,7 @@
         </div>
         <!-- fields for Account object -->
         <%= f.collection_radio_buttons :acct_type_id, AcctType.all, :id, :name, required: true %>
-        <%= f.text_field :customer_id, required: true %>
+        <%= f.text_field :customer_id, :value => params[:customer_id], required: true %>
         <p style="color: #F00; font-size: 9pt; line-height: 1.2em;"><em>IMPORTANT! This site is for demonstration purposes only.  Accounts are not "real" bank accounts and shall therefore handle no exchange of equity!</em></p>
       <div class="actions">
         <ul id="formButtonGroup">

@@ -1,7 +1,7 @@
 
   <div class="panel panel-default formPanel" style="width: 50%; padding: 0 25px;">  
 
-  <%= bootstrap_form_for(@address, url: customer_address_path) do |f| %>
+  <%= bootstrap_form_for(@address) do |f| %>
   <% if @address.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@address.errors.count, "error") %> prohibited this address from being saved:</h2>

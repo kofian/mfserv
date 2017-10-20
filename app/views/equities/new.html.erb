@@ -1,5 +1,7 @@
+<% content_for :admin_content do %>
 <h1>New Equity</h1>
 
 <%= render 'form', equity: @equity %>
 
 <%= link_to 'Back', risk_equities_path(:risk_id => :risk_id) %>
+<% end %>

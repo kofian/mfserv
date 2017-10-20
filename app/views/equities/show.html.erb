@@ -1,3 +1,74 @@
+<% if admin? %>
+<% content_for :admin_content do %>
+<main>
+  <div class="panel" style="margin: 10px; padding: 20px;">
+  
+<p id="notice"><%= notice %></p>
+ <div class="panel-heading">Details of Equity with certifcate number <%= @equity.certificat_number %></div>
+ <div class="panel-body">
+<p>
+  <strong>Customer:</strong>
+  <%= @equity.customer.name %>
+</p>
+
+<p>
+  <strong>Equity Name:</strong>
+  <%= @equity.risk.name %>
+</p>
+
+<p>
+  <strong>Equity Value:</strong>
+  <%= number_to_currency(@equity.risk.amount_covered, precision: 2) %>
+</p>
+
+<p>
+  <strong>Certificat number:</strong>
+  <%= @equity.certificat_number %>
+</p>
+
+<p>
+  <strong>Issue date:</strong>
+  <%= @equity.issue_date %>
+</p>
+
+<p>
+  <strong>Equity type:</strong>
+  <%= @equity.equity_type.name %>
+</p>
+
+<p>
+  <strong>Equity period:</strong>
+  <%= @equity.equity_period %>
+</p>
+
+<p>
+  <strong>Bill currency:</strong>
+  <%= @equity.bill_currency %>
+</p>
+
+<p>
+  <strong>Agency code:</strong>
+  <%= @equity.agency_code %>
+</p>
+
+<p>
+  <strong>Passport number:</strong>
+  <%= @equity.passport_number %>
+</p>
+
+<p>
+  <strong>Profession:</strong>
+  <%= @equity.profession %>
+</p>
+<% if admin? %>
+<%= link_to 'Edit', edit_equity_path(@equity) %> |
+<% end %>
+<%= link_to 'Back', :back, :class => "btn btn-primary formButton"  %>
+ </div>
+  </div>
+</main>
+<% end %>
+<% else %>
 <% content_for :customer_content do %>
 <main>
   <div class="panel" style="margin: 10px; padding: 20px;">
@@ -66,4 +137,5 @@
  </div>
   </div>
 </main>
+<% end %>
 <% end %>
