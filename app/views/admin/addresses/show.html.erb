@@ -1,0 +1,40 @@
+<% content_for :admin_content do %>
+<main>
+<div class="panel" style="margin: 10px; padding: 20px;">
+<p id="notice"><%= notice %></p>
+ <div class="row justify-content-md-center">
+     <div class="col-md-2">
+         <p>Piece of advert</p>
+     </div>
+   <div class="col-md-9">
+     <table class="table">
+         <thead>
+             <tr>
+                 <th>#</th>
+                 <td>Name</td>
+                 <td>Street Address</td>
+                 <td>City</td>
+                  <td>Post code</td>
+                  <td>Phone</td>
+                  <td>Action</td>
+             </tr>
+         </thead>
+         <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td><%= @address.customer.firstname %> <%= @address.customer.lastname %></td>
+            <td><%= @address.address1 %></td>
+            <td><%= @address.address2 %></td>
+             <td><%= @address.zip_code_zip_code %></td>
+             <td><%= @address.customer.phone1 %></td>
+             <td><%= link_to 'Edit', edit_customer_address_path(@address) %> |
+     <%= link_to 'Back', customer_addresses_path %></td>
+          </tr>  
+         </tbody>    
+     </table>   
+    </div>
+     
+ </div>
+</div>
+</main>
+<% end %>

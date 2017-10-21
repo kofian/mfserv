@@ -1,5 +1,5 @@
 class Admin::AccountsController < Admin::ApplicationController
-  
+  layout "admin"
   before_action :set_account, only: [:show, :edit, :update, :destroy]
   #before_action :user_owns_account?
 

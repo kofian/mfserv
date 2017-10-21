@@ -10,7 +10,8 @@ class Address < ApplicationRecord
 
 	validates :zip_code_zip_code, presence: true
 	validates :address1, presence: true
-	validate :check_zip
+	validates :country, presence: true
+	#validate :check_zip
 
   def check_zip
     if ZipCode.where(:zip_code => zip_code_zip_code).blank?

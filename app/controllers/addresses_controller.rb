@@ -1,8 +1,8 @@
 class AddressesController < ApplicationController
  layout "customer"
-   #before_action :authenticate_user!
-  before_action :set_address, only: [:show, :destroy]
- before_action :set_address_edit, only: [:edit, :update]
+   before_action :authenticate_user!
+  before_action :set_address, only: [:show, :edit, :update, :destroy]
+  #before_action :set_address_edit, only: [:edit, :update]
 
   # GET /addresses
   # GET /addresses.json
@@ -40,7 +40,7 @@ class AddressesController < ApplicationController
 
     respond_to do |format|
       if @address.save
-        format.html { redirect_to manage_customers_administrator_path(:id => current_user.id),  notice: 'Awesome!, you created mailing address for the customer' }
+        format.html { redirect_to manage_customers_admin_administrator_path(:id => current_user.id),  notice: 'Awesome!, you created mailing address for the customer' }
           #format.html { redirect_to accounts_path(current_user), notice: 'CONGRATULATIONS, your new account was successfully created!' }
           format.json { render :show, status: :created, location: @address }
       else
@@ -87,6 +87,6 @@ class AddressesController < ApplicationController
     end
     # Never trust parameters from the scary internet, only allow the white list through.
     def address_params
-      params.require(:address).permit(:customer_id, :address1, :address2, :zip_code_zip_code)
+      params.require(:address).permit(:customer_id, :address1, :address2, :zip_code_zip_code, :city, :state, :country)
     end
 end

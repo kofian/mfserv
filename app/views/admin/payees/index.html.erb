@@ -1,0 +1,43 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Payees</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Acct number</th>
+      <th>Status</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Country</th>
+      <th>Post code</th>
+      <th>Phone</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @payees.each do |payee| %>
+      <tr>
+        <td><%= payee.ref_name %></td>
+        <td><%= payee.address %></td>
+        <td><%= payee.acct_number %></td>
+        <td><%= payee.status %></td>
+        <td><%= payee.city %></td>
+        <td><%= payee.state %></td>
+        <td><%= payee.country %></td>
+        <td><%= payee.post_code %></td>
+        <td><%= payee.phone %></td>
+        <td><%= link_to 'Show', payee %></td>
+        <td><%= link_to 'Edit', edit_payee_path(payee) %></td>
+        <td><%= link_to 'Destroy', payee, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Payee', new_payee_path %>

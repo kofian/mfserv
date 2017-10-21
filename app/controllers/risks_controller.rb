@@ -29,7 +29,7 @@ class RisksController < ApplicationController
 
     respond_to do |format|
       if @risk.save
-        format.html { redirect_to @risk, notice: 'Risk was successfully created.' }
+        format.html { redirect_to admin_risk_path(@risk), notice: 'Risk was successfully created.' }
         format.json { render :show, status: :created, location: @risk }
       else
         format.html { render :new }
@@ -43,7 +43,7 @@ class RisksController < ApplicationController
   def update
     respond_to do |format|
       if @risk.update(risk_params)
-        format.html { redirect_to @risk, notice: 'Risk was successfully updated.' }
+        format.html { redirect_to admin_risk_path(@risk), notice: 'Risk was successfully updated.' }
         format.json { render :show, status: :ok, location: @risk }
       else
         format.html { render :edit }
@@ -70,6 +70,6 @@ class RisksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def risk_params
-      params.require(:risk).permit(:description, :name, :location, :interest_rate, :situation, :amount_covered, :contribution)
+      params.require(:risk).permit(:description, :name, :eligibility_group, :situation_type, :amount_covered, :monthly_contribution)
     end
 end

@@ -18,7 +18,7 @@
           <% for equity in @equities do %>
           <tr>
             <td><%= equity.id %></td>
-            <td class="hide-small"><%= equity.certificat_number %></td>
+            <td class="hide-small"><%= equity.certificate_number %></td>
             <td class="hide-large"><%= equity.issue_date %></td>
             <td class="hide-medium"><%= equity.equity_type.name %></td>
             <td class="hide-medium"><%= equity.bill_currency %></td>
@@ -50,7 +50,7 @@
           <% @risks.each do |risk| %>
           <tr>
             <td><%= risk.id %></td>
-            <td class="hide-small"><%= risk.name %>, <%= risk.interest_rate %></td>
+            <td class="hide-small"><%= risk.name %>, <%= risk.situation_type %></td>
             
             <td><%#= link_to 'Edit', edit_risk_path(risk), :class => "btn btn-default" %></td>
             <td><%= link_to 'Details', customer_risk_path(my_customer,risk), :class => "btn btn-default" %></td>

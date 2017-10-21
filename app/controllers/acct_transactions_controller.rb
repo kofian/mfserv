@@ -43,7 +43,7 @@ class AcctTransactionsController < ApplicationController
     @acct_transaction = AcctTransaction.new(acct_transaction_params)
     @acct_transaction.id = SecureRandom.random_number(99999999999999)
     @acct_transaction.date = Time.now
-    @acct_transaction.transaction_type_id = params[:transaction_type_id]
+    #@acct_transaction.transaction_type_id = params[:transaction_type_id]
     #@wire_transfer = @acct_transaction.wire_transfers.build
     #@acct_transaction.wire_transfers.routing = params[:routing]
     if @acct_transaction.valid?
@@ -54,7 +54,7 @@ class AcctTransactionsController < ApplicationController
       if @acct_transaction.save
         modify_acct_balance
         logger.info "Transaction was just created"
-        format.html { redirect_to new_acct_transaction_payee_path(@acct_transaction), notice: 'Acct transaction was successfully created.' }
+        format.html { redirect_to new_admin_acct_transaction_payee_path(@acct_transaction), notice: 'Acct transaction was successfully created.' }
         format.json { render :show, status: :created, location: @acct_transaction }
       else
         # flash[:error] = @acct_transaction.errors

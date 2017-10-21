@@ -1,0 +1,36 @@
+<main>
+<div class="panel" style="margin: 10px; padding: 20px;"> 
+
+<%= bootstrap_form_for(payee) do |fa| %>
+  <% if payee.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(payee.errors.count, "error") %> prohibited this payee from being saved:</h2>
+
+      <ul>
+      <% payee.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+           <%= fa.text_field :acct_number, required: true %>
+           <%= fa.text_field :ref_name %>
+           <%= fa.text_field :bank_name, required: true %>
+           <%= fa.text_field :routing_number %>
+           <%= fa.text_field :swift_code %>
+           <%= fa.text_field :address, required: true %>
+           <%= fa.text_field :city, required: true %>
+           <%= fa.text_field :state, required: true %>
+           <%= fa.text_field :country, required: true %>
+           <%= fa.text_field :post_code, required: true %>
+           <%= fa.text_field :phone %>
+           <%= fa.select :payee_type, options_for_select(['Debit', 'Credit']) %>
+           <%= fa.hidden_field :acct_transaction_id, :value => params[:acct_transaction_id] %>
+  <div class="actions">
+    <%= fa.submit %>
+  </div>
+<% end %>
+
+  </div>
+</main>

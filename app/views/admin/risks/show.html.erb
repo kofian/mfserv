@@ -1,0 +1,105 @@
+<% if admin? %>
+<% content_for :admin_content do %>
+<main>
+<div class="panel" style="margin: 10px; padding: 20px;">
+  
+<p id="notice"><%= notice %></p>
+
+<div class="panel-heading">Details of your <strong><%= @risk.name %></strong> investment fund </div>
+ <div class="panel-body">
+
+<p>
+  <strong>Description:</strong>
+  <%= @risk.description %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @risk.name %>
+</p>
+
+<p>
+  <strong>Eligible group:</strong>
+  <%= @risk.eligibility_group %>
+</p>
+
+
+<p>
+  <strong>Situation:</strong>
+  <%= @risk.situation_type %>
+</p>
+
+<p>
+  <strong>Amount covered:</strong>
+  <%= number_to_currency(@risk.amount_covered, precision: 2) %>
+</p>
+
+<p>
+  <strong>Monthly Contribution:</strong>
+   <%= number_to_currency(@risk.monthly_contribution, precision: 2) %>
+</p>
+<% if admin? %>
+<%= link_to 'Edit', edit_admin_risk_path(@risk) %> | <%= link_to 'Add Equity', new_admin_risk_equity_path(@risk) %> |
+<% end %>
+<%= link_to 'Back', :back, :class => "btn btn-primary formButton"  %>
+
+ </div>
+ 
+  </div>
+</main>
+<% end %>
+<% else %>
+<% content_for :customer_content do %>
+<main>
+<div class="panel" style="margin: 10px; padding: 20px;">
+  
+<p id="notice"><%= notice %></p>
+
+<div class="panel-heading">Details of your <strong><%= @risk.name %></strong> investment fund </div>
+ <div class="panel-body">
+
+<p>
+  <strong>Description:</strong>
+  <%= @risk.description %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @risk.name %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @risk.location %>
+</p>
+
+<p>
+  <strong>Interest rate type:</strong> 
+  <%= @risk.interest_rate %> rate
+</p>
+
+<p>
+  <strong>Situation:</strong>
+  <%= @risk.situation %>
+</p>
+
+<p>
+  <strong>Amount covered:</strong>
+  <%= number_to_currency(@risk.amount_covered, precision: 2) %>
+</p>
+
+<p>
+  <strong>Contribution:</strong>
+   <%= number_to_currency(@risk.contribution, precision: 2) %>
+</p>
+<% if admin? %>
+<%= link_to 'Edit', edit_risk_path(@risk) %> | <%= link_to 'Add Equity', new_risk_equity_path(@risk) %> |
+<% end %>
+<%= link_to 'Back', :back, :class => "btn btn-primary formButton"  %>
+
+ </div>
+ 
+  </div>
+</main>
+<% end %>
+<% end %>

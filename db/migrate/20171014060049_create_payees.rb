@@ -18,7 +18,7 @@ class CreatePayees < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
-    execute "ALTER TABLE payees ADD PRIMARY KEY (acct_number);"
+    execute "ALTER TABLE payees ADD PRIMARY KEY (acct_transaction_id);"
     add_index "payees", ["acct_number"], name: "fk_payees_acct_number1_idx", using: :btree
     add_index "payees", ["acct_transaction_id"], name: "fk_payees_acct_transaction1_idx", using: :btree
     add_index "payees", ["payee_type"], name: "fk_payees_payee_type1_idx", using: :btree

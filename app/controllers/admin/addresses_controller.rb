@@ -1,8 +1,8 @@
 class Admin::AddressesController < Admin::ApplicationController
- 
-   #before_action :authenticate_user!
-  before_action :set_address, only: [:show, :destroy]
- before_action :set_address_edit, only: [:edit, :update]
+  layout "admin" 
+  before_action :authenticate_user!
+  before_action :set_address, only: [:show, :edit, :update, :destroy]
+  #before_action :set_address_edit, only: [:edit, :update]
 
   # GET /addresses
   # GET /addresses.json
@@ -87,6 +87,6 @@ class Admin::AddressesController < Admin::ApplicationController
     end
     # Never trust parameters from the scary internet, only allow the white list through.
     def address_params
-      params.require(:address).permit(:customer_id, :address1, :address2, :zip_code_zip_code)
+      params.require(:address).permit(:customer_id, :address1, :address2, :zip_code_zip_code, :city, :state, :country)
     end
 end

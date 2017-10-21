@@ -1,7 +1,7 @@
 class CreateZipCodes < ActiveRecord::Migration[5.0]
   def up
    create_table "zip_codes", id: false, force: true do |t|
-    t.string  "zip_code", limit: 5,  null: false
+    t.string  "zip_code", limit: 10,  null: false
     t.string  "city",     limit: 45, null: false
     t.string "state_abbreviation", limit: 3, null: false
 

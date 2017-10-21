@@ -1,0 +1,56 @@
+<% content_for :admin_content do %>
+<main>
+<div class="panel" style="margin: 10px; padding: 20px;"> 
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @payee.ref_name %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @payee.address %>
+</p>
+
+<p>
+  <strong>Acct number:</strong>
+  <%= @payee.acct_number %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @payee.status %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @payee.city %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @payee.state %>
+</p>
+
+<p>
+  <strong>Country:</strong>
+  <%= @payee.country %>
+</p>
+
+<p>
+  <strong>Post code:</strong>
+  <%= @payee.post_code %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @payee.phone %>
+</p>
+
+<%= link_to 'Edit', edit_payee_path(@payee) %> |
+<%= link_to 'Back', payees_path %>
+
+  </div>
+</main>
+<% end %>

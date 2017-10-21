@@ -1,0 +1,70 @@
+<% content_for :admin_content do %>
+  <h3 class="table-heading"><%= @table_heading %></h3>
+  <%= form_tag manage_equities_admin_administrator_path, :method => 'get', :id => "search-form" do %>
+      <%= text_field_tag :search, params[:search], placeholder: 'Search Equities'  %>
+      <%= select_tag("search_criteria", options_for_select([['by equity id', '1'],['by customer last name', '2']], selected: '1')) %>
+      <%= submit_tag "Search", :name => nil %>
+  <% end %>
+  <br />
+    <%= paginate (@equities) %>
+    <table id="indexTable" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Equity ID</th>
+          <th class="hide-small">Certificate No</th>
+          <th class="hide-small hide-medium hide-large">Issue Date</th>
+          <th class="hide-small hide-medium">Equity Type</th>
+          <th class="hide-small hide-medium">Currency</th>
+          <th colspan="2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+          <% @equities.each do |equity| %>
+          <tr>
+            <td><%= equity.id %></td>
+            <td class="hide-small"><%= equity.certificate_number %></td>
+            <td class="hide-large"><%= equity.issue_date %></td>
+            <td class="hide-medium"><%= equity.equity_type.name %></td>
+            <td class="hide-medium"><%= equity.bill_currency %></td>
+            <td><%= link_to 'Edit', edit_admin_risk_equity_path(equity.risk_id,equity), :class => "btn btn-default" %></td>
+            <td><%= link_to 'Details', admin_risk_equity_path(equity.risk_id,equity), :class => "btn btn-default" %></td>
+             <td><%= link_to 'Risk', edit_admin_risk_path(equity.risk_id), :class => "btn btn-default" %></td>            
+
+          </tr>
+          <% end %>
+      </tbody>
+    </table>
+    <%= paginate (@equities) %>
+  <br />
+  <%= link_to 'Back', :back, :class => "btn btn-primary formButton"  %>
+   <%= link_to 'Create Risk', new_admin_risk_path, :class => "btn btn-primary formButton"  %>
+   
+   <br />
+    <%= paginate (@risks) %>
+    <table id="indexTable" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Risk ID</th>
+          <th class="hide-small">Risk Name</th>
+          
+          <th colspan="2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+          <% @risks.each do |risk| %>
+          <tr>
+            <td><%= risk.id %></td>
+            <td class="hide-small"><%= risk.name %>, <%= risk.situation_type %></td>
+            
+            <td><%= link_to 'Edit', edit_admin_risk_path(risk), :class => "btn btn-default" %></td>
+            <td><%= link_to 'Details', admin_risk_path(risk), :class => "btn btn-default" %></td>
+             <td><%= link_to 'Add Equity', new_admin_risk_equity_path(risk), :class => "btn btn-default" %></td>            
+
+          </tr>
+          <% end %>
+      </tbody>
+    </table>
+    <%= paginate (@risks) %>
+  <br />
+  
+<% end %>

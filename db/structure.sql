@@ -121,7 +121,10 @@ CREATE TABLE addresses (
     customer_id uuid NOT NULL,
     address1 character varying(100) NOT NULL,
     address2 character varying(100),
-    zip_code_zip_code character varying(5) NOT NULL
+    zip_code_zip_code character varying(10) NOT NULL,
+    city character varying(45) NOT NULL,
+    state character varying(30) NOT NULL,
+    country character varying(50) NOT NULL
 );
 
 
@@ -162,7 +165,9 @@ CREATE TABLE coin_accounts (
     balance numeric(10,2) NOT NULL,
     date_opened timestamp without time zone NOT NULL,
     acct_type_id smallint NOT NULL,
-    status character varying DEFAULT 'active'::character varying
+    status character varying DEFAULT 'active'::character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -191,16 +196,20 @@ CREATE TABLE equities (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     customer_id uuid NOT NULL,
     risk_id uuid NOT NULL,
-    certificat_number character varying,
+    certificate_number character varying NOT NULL,
     issue_date character varying,
     equity_type_id character varying,
     equity_period daterange,
-    bill_currency character varying,
+    bill_currency character varying NOT NULL,
     agency_code character varying,
-    passport_number character varying,
+    passport_number character varying NOT NULL,
     profession character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    location_of_risk character varying NOT NULL,
+    situation_of_risk character varying NOT NULL,
+    ref_bank character varying NOT NULL,
+    ref_account integer NOT NULL,
+    ref_bank_branch character varying NOT NULL,
+    interest_rate_type character varying NOT NULL
 );
 
 
@@ -269,13 +278,10 @@ CREATE TABLE risks (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     description character varying NOT NULL,
     name character varying NOT NULL,
-    location character varying NOT NULL,
-    interest_rate character varying NOT NULL,
-    situation character varying NOT NULL,
+    situation_type character varying NOT NULL,
+    eligibility_group character varying NOT NULL,
     amount_covered numeric(10,2) NOT NULL,
-    contribution numeric(10,2) NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    monthly_contribution numeric(10,2) NOT NULL
 );
 
 
@@ -296,7 +302,8 @@ CREATE TABLE states (
     id integer NOT NULL,
     name character varying(30) NOT NULL,
     abbreviation character varying(5) NOT NULL,
-    assoc_press character varying(14) NOT NULL
+    assoc_press character varying(14) NOT NULL,
+    country character varying(50) NOT NULL
 );
 
 
@@ -400,7 +407,7 @@ ALTER SEQUENCE wire_transfers_id_seq OWNED BY wire_transfers.id;
 --
 
 CREATE TABLE zip_codes (
-    zip_code character varying(5) NOT NULL,
+    zip_code character varying(10) NOT NULL,
     city character varying(45) NOT NULL,
     state_abbreviation character varying(3) NOT NULL
 );
@@ -519,7 +526,7 @@ ALTER TABLE ONLY equity_types
 --
 
 ALTER TABLE ONLY payees
-    ADD CONSTRAINT payees_pkey PRIMARY KEY (acct_number);
+    ADD CONSTRAINT payees_pkey PRIMARY KEY (acct_transaction_id);
 
 
 --
@@ -576,6 +583,13 @@ ALTER TABLE ONLY wire_transfers
 
 ALTER TABLE ONLY zip_codes
     ADD CONSTRAINT zip_codes_pkey PRIMARY KEY (zip_code);
+
+
+--
+-- Name: BY_COUNTRY; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX "BY_COUNTRY" ON states USING btree (country);
 
 
 --
@@ -645,7 +659,7 @@ CREATE INDEX fk_acct_transactions_transaction_types1_idx ON acct_transactions US
 -- Name: fk_addresses_zip_codes1_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX fk_addresses_zip_codes1_idx ON addresses USING btree (zip_code_zip_code);
+CREATE INDEX fk_addresses_zip_codes1_idx ON addresses USING btree (zip_code_zip_code, city, country);
 
 
 --
@@ -681,6 +695,13 @@ CREATE INDEX fk_coin_accounts_customers1_idx ON coin_accounts USING btree (custo
 --
 
 CREATE INDEX fk_customers_users1_idx ON customers USING btree (user_id);
+
+
+--
+-- Name: fk_equities_owners1_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fk_equities_owners1_idx ON equities USING btree (customer_id, risk_id, passport_number);
 
 
 --
@@ -775,6 +796,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20171014060049'),
 ('20171016141244'),
 ('20171016141759'),
-('20171016141924');
+('20171016141924'),
+('20171021044723');
 
 

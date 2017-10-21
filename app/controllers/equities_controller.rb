@@ -31,7 +31,7 @@ class EquitiesController < ApplicationController
 
     respond_to do |format|
       if @equity.save
-        format.html { redirect_to risk_equities_path(@equity.risk_id), notice: 'Equity was successfully created.' }
+        format.html { redirect_to admin_risk_equities_path(@equity.risk_id), notice: 'Equity was successfully created.' }
         format.json { render :show, status: :created, location: @equity }
       else
         format.html { render :new }
@@ -45,7 +45,7 @@ class EquitiesController < ApplicationController
   def update
     respond_to do |format|
       if @equity.update(equity_params)
-        format.html { redirect_to @equity, notice: 'Equity was successfully updated.' }
+        format.html { redirect_to admin_risk_equity_path(@equity), notice: 'Equity was successfully updated.' }
         format.json { render :show, status: :ok, location: @equity }
       else
         format.html { render :edit }
@@ -72,6 +72,6 @@ class EquitiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def equity_params
-      params.require(:equity).permit(:customer_id, :risk_id, :certificat_number, :issue_date, :equity_type_id, :equity_period, :bill_currency, :agency_code, :passport_number, :profession)
+      params.require(:equity).permit(:customer_id, :risk_id, :certificate_number, :issue_date, :equity_type_id, :equity_period, :bill_currency, :agency_code, :passport_number, :profession, :location_of_risk, :situation_of_risk, :ref_bank, :ref_account, :ref_bank_branch, :interest_rate_type)
     end
 end

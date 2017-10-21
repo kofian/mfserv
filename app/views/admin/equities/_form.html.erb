@@ -1,0 +1,96 @@
+<main>
+<div class="panel" style="margin: 10px; padding: 20px;">
+  
+<%= bootstrap_form_for(equity) do |f| %>
+  <% if equity.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(equity.errors.count, "error") %> prohibited this equity from being saved:</h2>
+
+      <ul>
+      <% equity.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  
+    
+     <%= f.select :customer_id, Customer.all.collect {|p| [ p.name, p.id ] }, { class: "selectpicker" }, {prompt: 'Select Customer'} %>
+  
+
+  <div class="field">
+    
+    <%= f.hidden_field :risk_id, :value => params[:risk_id] %>
+  </div>
+
+  <div class="field">
+    
+    <%= f.text_field :certificate_number %>
+  </div>
+
+  <div class="field">
+    
+    <%= f.text_field :issue_date %>
+  </div>
+
+  <div class="field">
+    <%= f.select :equity_type_id, EquityType.all.collect {|p| [ p.name, p.id ] }, { class: "selectpicker" }, {prompt: 'Select Equity type'} %>
+  </div>
+
+  <div class="field">
+    
+    <%= f.text_field :location_of_risk %>
+  </div>
+
+  <div class="field">
+    
+    <%= f.text_field :situation_of_risk %>
+  </div>
+
+  <div class="field">
+    
+    <%= f.text_field :ref_bank %>
+  </div>
+  
+  <div class="field">
+    
+    <%= f.text_field :ref_account, :label => "Funding Bank Account", required: true %>
+  </div>
+  
+  <div class="field">
+    
+    <%= f.text_field :ref_bank_branch, :label => "Funding Bank Branch", required: true %>
+  </div>
+  
+  <div class="field">
+   
+    <%= f.text_field :interest_rate_type, :label => "Type of Interest Rate", required: true %>
+  </div>
+  
+  <div class="field">
+   
+    <%= f.text_field :bill_currency %>
+  </div>
+
+  <div class="field">
+   
+    <%= f.text_field :agency_code %>
+  </div>
+
+  <div class="field">
+    
+    <%= f.text_field :passport_number %>
+  </div>
+
+  <div class="field">
+   
+    <%= f.text_field :profession %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+  </div>
+</main>

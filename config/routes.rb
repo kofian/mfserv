@@ -25,16 +25,7 @@ Rails.application.routes.draw do
   get 'accounts/add_account', to: 'accounts#new'
   post 'accounts/add_account', to: 'accounts#create'
 
-  resources :administrators do
-    member do
-      get :adminview
-      get :manage_accounts
-      get :manage_customers
-      get :manage_acct_transactions
-      get :manage_equities
-      get :create_customer_account
-    end
-  end
+
 
   
   resources :users do
@@ -129,4 +120,37 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  namespace :admin do
+    resources :administrators do
+     member do
+      get :adminview
+      get :manage_accounts
+      get :manage_customers
+      get :manage_acct_transactions
+      get :manage_equities
+      get :create_customer_account
+     end
+    end
+    resources :accounts do
+      resources :acct_transactions
+    end
+    resources :risks do
+      resources :equities 
+    end
+    resources :users do
+     resources :customers
+    end
+    resources :state do
+     resources :zip_codes
+    end
+    resources :coin_accounts do
+      resources :acct_transactions
+    end  
+    resources :acct_transactions do
+      resources :payees
+    end
+    resources :customers do
+      resources :addresses, :accounts, :coin_accounts, :equities
+    end
+  end
 end

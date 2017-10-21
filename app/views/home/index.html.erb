@@ -11,7 +11,7 @@
        <span role=button><%= link_to "View Your Accounts?", customerview_customer_path(my_customer), :class => "btn btn-warning btn-lg" %></span>
       <% else %>
       <h4>You're already signed in, <%= current_user.username %>. Would you like to</h4>
-      <span role=button><%= link_to 'Continue to Administrator Dashboard', adminview_administrator_path(current_user), :class => 'btn btn-warning btn-lg' %></span>
+      <span role=button><%= link_to 'Continue to Administrator Dashboard',  adminview_admin_administrator_path(current_user), :class => 'btn btn-warning btn-lg' %></span>
       <% end %>
     	<h4>or</h4>
   	<span role=button><%= link_to "Sign out", destroy_user_session_path, :method => :delete, :class => "btn btn-danger btn-lg" %></span>

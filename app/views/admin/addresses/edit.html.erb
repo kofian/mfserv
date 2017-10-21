@@ -1,0 +1,11 @@
+<% content_for :admin_content do %>
+<h1>Editing address</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Show', admin_customer_address_path %> |
+<%= link_to 'Back', admin_customer_addresses_path %>
+
+  <br />
+  <%= link_to 'Back', :back, :class => "btn btn-primary formButton"  %>
+<% end %>

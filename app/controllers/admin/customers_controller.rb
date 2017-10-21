@@ -1,5 +1,5 @@
 class Admin::CustomersController < Admin::ApplicationController
-  
+  layout "admin"
   before_action :set_customer, only: [:show, :edit, :update, :destroy]
 
   # GET /customers
@@ -11,13 +11,6 @@ class Admin::CustomersController < Admin::ApplicationController
   # GET /customers/1
   # GET /customers/1.json
   def show
-    if @customer.address.present?
-    zip = @customer.address.zip_code_zip_code
-    @city = ZipCode.find(zip).city
-    @state = ZipCode.find(zip).state_abbreviation
-   else
-    redirect_to new_customer_address_path(:customer_id => @customer.id), notice: 'This customer has no address in the file'
-   end
   end
 
   # GET /customers/new

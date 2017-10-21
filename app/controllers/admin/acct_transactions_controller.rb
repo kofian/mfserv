@@ -1,5 +1,5 @@
 class Admin::AcctTransactionsController < Admin::ApplicationController
-  
+  layout "admin"
   before_action :set_acct_transaction, only: [:show, :edit, :update, :destroy]
 
   # GET /acct_transactions

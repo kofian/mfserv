@@ -1,0 +1,67 @@
+<% content_for :admin_content do %>
+  <h3 class="table-heading"><%= @table_heading %></h3>
+  <%= form_tag manage_customers_admin_administrator_path, :method => 'get', :id => "search-form" do %>
+      <%= text_field_tag :search, params[:search], placeholder: 'Search Customers'  %>
+      <%= select_tag("search_criteria", options_for_select([['by customer id', '1'],['by customer last name', '2']], selected: '1')) %>
+      <%= submit_tag "Search", :name => nil %>
+  <% end %>
+  <br />
+    <%= paginate (@customers) %>
+    <table id="indexTable" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Customer ID</th>
+          <th class="hide-small">Customer Name</th>
+          <th class="hide-small hide-medium hide-large">Phone</th>
+          <th class="hide-small hide-medium">Email</th>
+          <th colspan="2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+          <% @customers.each do |customer| %>
+          <tr>
+            <td><%= customer.id %></td>
+            <td class="hide-small"><%= customer.lastname %>, <%= customer.firstname %></td>
+            <td class="hide-large"><%= customer.phone1 %></td>
+            <td class="hide-medium"><%= mail_to customer.user.email %></td>
+            <td><%= link_to 'Edit', edit_admin_user_customer_path(customer.user_id,customer), :class => "btn btn-default" %></td>
+            <td><%= link_to 'Details', admin_user_customer_path(customer.user_id,customer), :class => "btn btn-default" %></td>
+             <td><%= link_to 'Address', edit_admin_customer_address_path(customer,customer), :class => "btn btn-default" %></td>            
+
+          </tr>
+          <% end %>
+      </tbody>
+    </table>
+    <%= paginate (@customers) %>
+  <br />
+  <%= link_to 'Back', :back, :class => "btn btn-primary formButton"  %>
+   <%= link_to 'Create Customer', new_user_registration_path, :class => "btn btn-primary formButton"  %>
+   
+   <br />
+    <%= paginate (@users) %>
+    <table id="indexTable" class="table table-striped">
+      <thead>
+        <tr>
+          <th>User ID</th>
+          <th class="hide-small">UserName</th>
+          
+          <th colspan="2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+          <% @users.each do |user| %>
+          <tr>
+            <td><%= user.id %></td>
+            <td class="hide-small"><%= user.email %>, <%= user.username %></td>
+            
+            <td><%= link_to 'Edit', edit_admin_user_path(user), :class => "btn btn-default" %></td>
+            <td><%= link_to 'Details', admin_user_path(user), :class => "btn btn-default" %></td>
+             <td><%= link_to 'Add Customer', new_admin_user_customer_path(user), :class => "btn btn-default" %></td>            
+
+          </tr>
+          <% end %>
+      </tbody>
+    </table>
+    <%= paginate (@users) %>
+  <br />
+<% end %>

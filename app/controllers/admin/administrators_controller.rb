@@ -1,5 +1,4 @@
 class Admin::AdministratorsController < Admin::ApplicationController
-  
   #call admin layout file
   layout "admin"
   before_filter :authenticate_user!
@@ -97,6 +96,54 @@ class Admin::AdministratorsController < Admin::ApplicationController
     end
   end
 
+  def manage_equities
+    # criteria from the "Search by" select menu
+    if params[:search]
+        case (params[:search_criteria])
+        when '1'
+          @criteria = 'id'
+        when '2'
+          @criteria = 'customer_id'
+        when '3'
+          
+        # when '3' 
+        #   Account.includes(:customers).all
+        #   @criteria = 'customer.lastname'
+        end
+
+        @equities = Equity.where("#{@criteria} LIKE ?", "%#{params[:search].downcase}%").page(params[:page]).per(15)
+        @table_heading = "Equity Search Results"
+    else
+        @equities = Equity.order('id').page(params[:page]).per(15)
+        @risks = Risk.order('id').page(params[:page]).per(15)
+        @table_heading = "Listing All Equities"
+    end
+
+    respond_to do |format|
+      format.js
+      format.html {render 'manage_equities'}
+    end
+  end
+  
+  def create_customer_account
+    #@customer = Customer.find(params[:customer_id])
+    @account = Account.new
+    @account.id = SecureRandom.random_number(999999999999)
+    @account.balance = params[:balance]
+    @account.date_opened = Time.now.to_date
+    @account.customer_id = params[:customer_id]
+    @account.acct_type_id = params[:acct_type_id]
+    
+      respond_to do |format|
+        if @account.save
+         format.js
+         format.html {render 'manage_accounts'}
+       else
+         format.js
+         format.html {render 'create_customer_account'}
+        end
+      end
+  end    
   # GET /administrators/1
   # GET /administrators/1.json
   def show
@@ -167,7 +214,7 @@ class Admin::AdministratorsController < Admin::ApplicationController
           manage_acct_transactions
         else
           manage_accounts
-      end
+    end
   end
 
   private
