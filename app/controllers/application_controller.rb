@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
 
   	if current_user.role == 'admin'
-  		adminview_administrator_path(current_user, format: :html)
+  		adminview_admin_administrator_path(current_user, format: :html)
   	else
   		accounts_path(current_user, format: :html)
   	end
