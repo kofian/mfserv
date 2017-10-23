@@ -5,7 +5,7 @@
 <div id="links-block">
 	<%= link_to 'Show', @customer, :class => "btn btn-info formButton"  %> 
 	<% if current_user.role = 'admin' %>
-		<%= link_to 'Return to Dashboard', manage_customers_administrator_path, :class => "btn btn-warning formButton"  %>
+		<%= link_to 'Return to Dashboard', manage_customers_admin_administrator_path, :class => "btn btn-warning formButton"  %>
 	<% else %>
 		<%= link_to 'Back to Home Page', root_path, :class => "btn btn-warning formButton"  %>
 	<% end %>
