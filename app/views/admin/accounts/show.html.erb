@@ -40,7 +40,7 @@
            <% for trans in  @acct_transactions do %>
             <tr>
               <td> <%= trans.date.strftime("%m/%d/%Y at %I:%M%p") %> </td>
-              <td class="hide-large"> <%= link_to trans.id, acct_transaction_path(:id => trans.id)  %> </td>
+              <td class="hide-large"> <%= link_to trans.id, admin_acct_transaction_path(:id => trans.id)  %> </td>
               <td class="hide-medium"> <%= trans.description %></td>
               <td class="hide-small"> <%= TransactionType.find(trans.transaction_type_id).name %> </td>
               <td> <%= number_to_currency(trans.amount) %></td>
