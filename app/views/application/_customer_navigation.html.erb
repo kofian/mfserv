@@ -11,7 +11,7 @@
                 
               <td class="dropdown"><a href="#" class="dropdown-toggle btn-lg btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Manage Funds Transfer<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu"><% my_customer.accounts.each do |account| %>
-               <li role="tab" ><%= link_to "Transfer from #{account.id}", new_customer_account_acct_transaction_path(my_customer,account, :transaction_type_id => 6), :class => "btn btn-default" %> </li>
+               <li role="tab" ><%= link_to "Transfer from #{account.id}", new_payee_path, :class => "btn btn-default" %> </li>
                <!--<li role="tab" ><%#= link_to 'Wire Transfer', new_customer_account_acct_transaction_path(my_customer,:account_id => :id, :transaction_type_id => 9), :class => "btn btn-default" %> </li>-->
              <% end %></ul></td>
              </li>
