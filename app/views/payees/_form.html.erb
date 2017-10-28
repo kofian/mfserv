@@ -13,20 +13,55 @@
       </ul>
     </div>
   <% end %>
-
-           <%= fa.text_field :acct_number, required: true %>
-           <%= fa.text_field :ref_name %>
-           <%= fa.text_field :bank_name, required: true %>
-           <%= fa.text_field :routing_number %>
-           <%= fa.text_field :swift_code %>
-           <%= fa.text_field :address, required: true %>
-           <%= fa.text_field :city, required: true %>
-           <%= fa.text_field :state, required: true %>
-           <%= fa.text_field :country, required: true %>
-           <%= fa.text_field :post_code, required: true %>
-           <%= fa.text_field :phone %>
-           <%= fa.select :payee_type, options_for_select(['Debit', 'Credit']) %>
-           <%= fa.hidden_field :acct_transaction_id, :value => params[:acct_transaction_id] %>
+         <div class="row">
+           <div class="col-md-6"><%= fa.text_field :acct_number, :label => "Bank Account Number", required: true %></div>
+           <div class="col-md-6"><%= fa.text_field :ref_name, :label => "Sender Name" %></div>
+         </div>
+           <div class="row">
+             <div class ="col-md-4">
+               <%= fa.text_field :bank_name, :label => "Bank Name", required: true %>
+             </div>
+             <div class ="col-md-3">
+               <%= fa.text_field :routing_number %>
+             </div>
+             <div class ="col-md-3">
+               <%= fa.text_field :swift_code, :label => "SwiftCode" %>
+             </div>
+             <div class ="col-md-2 form-group">
+               <%= fa.select :payee_type, options_for_select(['Debit', 'Credit']), class:"form-control" %>
+             </div>
+           </div>
+           <div class="row">
+             <div class="col-md-10">
+               <%= fa.text_field :address, :label => "Bank Address", required: true %>
+             </div>
+             <div class="col-md-2">
+               <%= fa.text_field :city, required: true %>
+             </div>
+           </div>
+           <div class="row">
+             <div class="col-md-2">
+               <%= fa.text_field :state, required: true %>
+             </div>
+             <div class="col-md-2">
+               <%= fa.text_field :post_code, required: true %>
+             </div>
+           
+             <div class="col-md-3">
+               <%= fa.text_field :country, required: true %>
+             </div>
+             <div class="col-md-3">
+               <%= fa.text_field :phone,:label => "Sender Phone" %>
+             </div>
+           </div>
+           
+           
+           
+           
+           
+           
+           
+           
   <div class="actions">
     <%= fa.submit %>
   </div>

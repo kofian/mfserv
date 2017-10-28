@@ -38,5 +38,32 @@
     </table>
     <%= paginate (@accounts) %>
   <br />
+  <table id="indexTable" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Account Type Id</th>
+          
+          <th>Name</th>
+          <th class="hide-medium">Status</th>
+          
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+          <% @acct_types.each do |acct_type| %>
+          <tr>
+            <td><%= acct_type.id %></td>
+            <td class="hide-medium"><%= acct_type.name %>
+            <td><%= acct_type.status %></td>
+            
+
+            <td><%= link_to 'Show', acct_type_path(acct_type), :class=> "btn btn-default" %></td>
+          </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+    <br />
   <%= link_to 'Back', :back, :class => "btn btn-primary formButton"  %>
 <% end %>

@@ -45,8 +45,8 @@ Rails.application.routes.draw do
   resources :coin_accounts do
     resource :acct_transactions
   end  
-  resources :acct_transactions do
-      resources :payees
+  resources :payees do
+      resources :acct_transactions
     end
   resources :customers do
    resources :addresses, :accounts, :coin_accounts, :equities
@@ -70,7 +70,7 @@ Rails.application.routes.draw do
     resources :equities 
   end
   resources :account_types, :accounts, :addresses, :administrators, :customers, :transaction_types, :acct_transactions, :users
-  resources :payees, :coin_accounts, :equity_types, :equities
+  resources :coin_accounts, :equity_types, :equities
   
   #resources :payees, :transaction_types
 # The priority is based upon order of creation: first created -> highest priority.
@@ -146,8 +146,8 @@ Rails.application.routes.draw do
     resources :coin_accounts do
       resources :acct_transactions
     end  
-    resources :acct_transactions do
-      resources :payees
+    resources :payees do
+      resources :acct_transactions
     end
     resources :customers do
       resources :addresses, :accounts, :coin_accounts, :equities

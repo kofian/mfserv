@@ -3,7 +3,7 @@ class AcctTransaction < ActiveRecord::Base
     belongs_to :account
     belongs_to :transaction_type
     has_many :wire_transfers
-    has_one :payee
+    belongs_to :payee
        
        accepts_nested_attributes_for :wire_transfers, reject_if: lambda {|attributes| attributes['acct_transaction_id'].blank?}, :allow_destroy => true    
   accepts_nested_attributes_for :payee, :allow_destroy => true

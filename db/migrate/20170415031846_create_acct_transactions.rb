@@ -1,5 +1,6 @@
 class CreateAcctTransactions < ActiveRecord::Migration[5.0]
   def up
+   enable_extension 'uuid-ossp'
    create_table "acct_transactions", id: false, force: true do |t|
      t.integer  "id", limit: 8,       null: false
      t.datetime "date",   null: false
@@ -9,6 +10,7 @@ class CreateAcctTransactions < ActiveRecord::Migration[5.0]
      t.integer  "transaction_type_id",  null: false
      t.decimal "adjusted_bal",  precision: 10, scale: 2, null: false
      t.string "status", default:"pending"
+     t.uuid :payee_id, null: false
        	  
     t.timestamps
   end
@@ -16,6 +18,7 @@ class CreateAcctTransactions < ActiveRecord::Migration[5.0]
    add_index "acct_transactions", ["account_id"], name: "fk_acct_transactions_accounts1_idx", using: :btree
    add_index "acct_transactions", ["date", "id"], name: "BY_DATE", using: :btree
    add_index "acct_transactions", ["transaction_type_id"], name: "fk_acct_transactions_transaction_types1_idx", using: :btree
+   add_index "acct_transactions", ["payee_id"], name: "fk_acct_transactions_payees1_idx", using: :btree
   end
 
   def down

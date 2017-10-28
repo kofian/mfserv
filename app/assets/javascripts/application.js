@@ -15,7 +15,9 @@
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require Base_camp
-//= require bootstrap-sprockets
+//= require moment
+//= require bootstrap-datetimepicker
+//= require daterangepicker
 //= require jquery_nested_form
 //= require change_theme
 //= require_self

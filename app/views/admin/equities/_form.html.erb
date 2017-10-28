@@ -13,79 +13,111 @@
       </ul>
     </div>
   <% end %>
+   <div class="row">
+     <div class="col-md-6">
+       <%= f.select :customer_id, Customer.all.collect {|p| [ p.name, p.id ] }, { class: "selectpicker" }, {prompt: 'Select Customer'} %>
+     </div>
+     <div class="col-md-6">
+       <%= f.text_field :certificate_number %>
+     </div>
+   </div>
+   <div class="row">
+     <div class="col-md-4">
+       <div class="form-group">
+         <%= f.text_field :issue_date, class: "form-control", id:'datetimepicker2'  %>
+        </div>
+     </div>
+     <div class="col-md-4">
+       <div class="input-group">
+         <div id="daterange2" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+        <%= f.text_field :equity_period, id:'daterange2' %>
+         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+          <span></span> <b class="caret"></b>
+        </div>
+       </div>
+     </div>
+     
+     <div class="col-md-4">
+       <%= f.select :equity_type_id, EquityType.all.collect {|p| [ p.name, p.id ] }, { class: "selectpicker" }, {prompt: 'Select Equity type'} %>
+     </div>
+     <script type="text/javascript">
+       $(function () {
+        $('#daterange2').daterangepicker(
+          {
+            locale: {
+              format: 'YYYY-MM-DD'
+            },
+            startDate: '1999-01-01',
+            endDate: '2035-12-31'
+          }
+        );
+        $('#datetimepicker2').datetimepicker();
+         var start = moment().subtract(29, 'days');
+    var end = moment();
 
-  
-    
-     <%= f.select :customer_id, Customer.all.collect {|p| [ p.name, p.id ] }, { class: "selectpicker" }, {prompt: 'Select Customer'} %>
-  
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    }
 
+    $('#reportrange').daterangepicker({
+        startDate: start,
+        endDate: end,
+        ranges: {
+           'Today': [moment(), moment()],
+           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+    }, cb);
+
+    cb(start, end);
+      });
+    </script>
+   </div>
+    <div class="row">
+     <div class="col-md-6">
+       <%= f.text_field :location_of_risk %>
+     </div>
+     <div class="col-md-6">
+       <%= f.text_field :situation_of_risk %>
+     </div>
+   </div>
+    <div class="row">
+     <div class="col-md-6">
+       <%= f.text_field :ref_bank %>
+     </div>
+     <div class="col-md-6">
+       <%= f.text_field :ref_account, :label => "Funding Bank Account", required: true %>
+     </div>
+   </div>
+   <div class="row">
+     <div class="col-md-6">
+       <%= f.text_field :ref_bank_branch, :label => "Funding Bank Branch", required: true %>
+     </div>
+     <div class="col-md-3">
+       <%= f.text_field :interest_rate_type, :label => "Type of Interest Rate", required: true %>
+     </div>
+     <div class="col-md-3">
+       <%= f.text_field :bill_currency %>
+     </div>
+   </div>
+   <div class="row">
+     <div class="col-md-4">
+       <%= f.text_field :agency_code %>
+     </div>
+     <div class="col-md-4">
+       <%= f.text_field :passport_number %>
+     </div>
+     <div class="col-md-4">
+       <%= f.text_field :profession %>
+     </div>
+   </div>
+     
   <div class="field">
     
     <%= f.hidden_field :risk_id, :value => params[:risk_id] %>
-  </div>
-
-  <div class="field">
-    
-    <%= f.text_field :certificate_number %>
-  </div>
-
-  <div class="field">
-    
-    <%= f.text_field :issue_date %>
-  </div>
-
-  <div class="field">
-    <%= f.select :equity_type_id, EquityType.all.collect {|p| [ p.name, p.id ] }, { class: "selectpicker" }, {prompt: 'Select Equity type'} %>
-  </div>
-
-  <div class="field">
-    
-    <%= f.text_field :location_of_risk %>
-  </div>
-
-  <div class="field">
-    
-    <%= f.text_field :situation_of_risk %>
-  </div>
-
-  <div class="field">
-    
-    <%= f.text_field :ref_bank %>
-  </div>
-  
-  <div class="field">
-    
-    <%= f.text_field :ref_account, :label => "Funding Bank Account", required: true %>
-  </div>
-  
-  <div class="field">
-    
-    <%= f.text_field :ref_bank_branch, :label => "Funding Bank Branch", required: true %>
-  </div>
-  
-  <div class="field">
-   
-    <%= f.text_field :interest_rate_type, :label => "Type of Interest Rate", required: true %>
-  </div>
-  
-  <div class="field">
-   
-    <%= f.text_field :bill_currency %>
-  </div>
-
-  <div class="field">
-   
-    <%= f.text_field :agency_code %>
-  </div>
-
-  <div class="field">
-    
-    <%= f.text_field :passport_number %>
-  </div>
-
-  <div class="field">
-   
-    <%= f.text_field :profession %>
   </div>
 
   <div class="actions">

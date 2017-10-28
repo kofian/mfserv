@@ -53,7 +53,7 @@
 <div id="links-block">
 <%= link_to 'Back', :back, :class => "btn btn-primary formButton" %>
 <% if current_user.role == 'admin' %>
-<%= link_to 'Add Transaction', new_account_acct_transaction_path(@account), :class => "btn btn-primary formButton" %>
+<%= link_to 'Add Transaction', new_admin_payee_path, :class => "btn btn-primary formButton" %>
 <%= link_to 'Close Account', @account, :class => "btn btn-danger formButton", method: :delete, data: { confirm: 'Are you sure you want to close this account?' } %>
 <% end %>
 <% unless current_user.role == 'admin' %>
@@ -98,7 +98,7 @@
            <% for trans in  @acct_transactions do %>
             <tr>
               <td> <%= trans.date.strftime("%m/%d/%Y at %I:%M%p") %> </td>
-              <td class="hide-large"> <%= link_to trans.id, acct_transaction_path(:id => trans.id)  %> </td>
+              <td class="hide-large"> <%= link_to trans.id, customer_account_acct_transaction_path(my_customer, trans.account_id,trans.id)  %> </td>
               <td class="hide-medium"> <%= trans.description %></td>
               <td class="hide-small"> <%= TransactionType.find(trans.transaction_type_id).name %> </td>
               <td> <%= number_to_currency(trans.amount) %></td>

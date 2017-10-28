@@ -4,6 +4,7 @@
       acct_transactions/_form.html.erb
 -->
 <!-- Dynamically generated partial for AcctTransaction model forms-->
+
 <main>
 <div class="panel" style="margin: 10px; padding: 20px;">  
 
@@ -20,31 +21,37 @@
   <% end %>
         <!-- pre-filled (static) fields -->
         
-        <%= f.select :transaction_type_id, TransactionType.all.collect {|p| [ p.name, p.id ] }, class: "selectpicker btn-lg btn-default",prompt: 'Select Transaction type' %>
         
-          <br />
-          Date: <strong><%= Time.now.to_date %></strong></p>
+                <div class="row">
+          <div class="col-md-6">
+        <%= f.select :transaction_type_id, TransactionType.all.collect {|p| [ p.name, p.id ] }, 
+        class: "selectpicker btn-lg btn-default",prompt: 'Select Transaction type' %>
+          </div>
+          <div class="col-md-6">
+            
+              <div class="form-group">
+                    
+                    <%= f.text_field :date, class: "form-control", id:'datetimepicker3'  %>
+                  
+              </div>
+           </div>
+           <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker3').datetimepicker();
+            });
+        </script>
+        </div>
         <!-- fields for AcctTransaction object -->
         <%= f.text_field :description, :style =>"max-width: 550px;" %>
-        <%= f.text_field :amount, :style =>"width: 160px;" %>
-        <%= f.hidden_field :account_id, :value => params[:account_id] %>
-        <%#= f.hidden_field :transaction_type_id, :value => params[:transaction_type_id] %>
-        <%#= f.hidden_field :transaction_type_id, :value => @acct_transaction.transaction_type_id %>
-          <%= f.fields_for :payee do |fa| %>
-           <%= fa.text_field :account_number, required: true %>
-           <%= fa.text_field :ref_name %>
-           <%= fa.text_field :bank_name, required: true %>
-           <%= fa.text_field :routing_number %>
-           <%= fa.text_field :swift_code %>
-           <%= fa.text_field :address, required: true %>
-           <%= fa.text_field :city, required: true %>
-           <%= fa.text_field :state, required: true %>
-           <%= fa.text_field :country, required: true %>
-           <%= fa.text_field :post_code, required: true %>
-           <%= fa.text_field :phone %>
-           <%= fa.select :title, options_for_select(['Debit', 'Credit']) %>
-           <%#= f.hidden_field :acct_transaction_id, :value => params[:acct_transaction_id] %>
-          <% end %>
+        <div class="row">
+          <div class="col-md-6">
+            <%= f.text_field :account_id, required: true %>
+          </div>
+          <div class="col-md-6">
+            <%= f.text_field :amount, required: true %>
+          </div>
+        </div>
+        <%= f.text_field :payee_id, :value => params[:payee_id], required: true %> 
       <div class="actions">
         <%= f.submit "Complete Transaction", :class => "btn btn-info"%>
       </div>

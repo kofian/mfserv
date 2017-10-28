@@ -1,3 +1,5 @@
 class Payee < ApplicationRecord
-    belongs_to :acct_transaction
+    has_many :acct_transactions
+    
+    accepts_nested_attributes_for :acct_transactions
 end

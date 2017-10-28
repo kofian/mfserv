@@ -27,7 +27,7 @@ class Admin::EquitiesController < Admin::ApplicationController
   def create
     #@equity.customer_id = params[:customer_id]
     @equity = Equity.new(equity_params)
-    @equity.equity_period = Date.current..(Date.current + 45.years)
+    #@equity.equity_period = Date.current..(Date.current + 45.years)
 
     respond_to do |format|
       if @equity.save

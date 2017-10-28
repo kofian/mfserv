@@ -28,7 +28,7 @@
             <td class="hide-medium"><%= trans.account_id %></td>
             <td class="hide-large"><%= trans.description %></td>
             <td><%= number_to_currency(trans.amount) %></td>
-            <td><%= link_to 'Show', admin_acct_transaction_path(trans), :class => "btn btn-default" %></td>
+            <td><%= link_to 'Show', admin_account_acct_transaction_path(trans.account_id,trans), :class => "btn btn-default" %></td>
           </tr>
           <% end %>
       </tbody>

@@ -77,6 +77,7 @@ CREATE TABLE acct_transactions (
     transaction_type_id integer NOT NULL,
     adjusted_bal numeric(10,2) NOT NULL,
     status character varying DEFAULT 'pending'::character varying,
+    payee_id uuid NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -251,6 +252,7 @@ ALTER SEQUENCE equity_types_id_seq OWNED BY equity_types.id;
 --
 
 CREATE TABLE payees (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
     ref_name character varying,
     bank_name character varying NOT NULL,
     routing_number character varying,
@@ -263,7 +265,6 @@ CREATE TABLE payees (
     country character varying NOT NULL,
     post_code character varying NOT NULL,
     phone character varying,
-    acct_transaction_id bigint NOT NULL,
     payee_type character varying DEFAULT 'credit'::character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -526,7 +527,7 @@ ALTER TABLE ONLY equity_types
 --
 
 ALTER TABLE ONLY payees
-    ADD CONSTRAINT payees_pkey PRIMARY KEY (acct_transaction_id);
+    ADD CONSTRAINT payees_pkey PRIMARY KEY (id);
 
 
 --
@@ -649,6 +650,13 @@ CREATE INDEX fk_acct_transactions_accounts1_idx ON acct_transactions USING btree
 
 
 --
+-- Name: fk_acct_transactions_payees1_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fk_acct_transactions_payees1_idx ON acct_transactions USING btree (payee_id);
+
+
+--
 -- Name: fk_acct_transactions_transaction_types1_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -709,13 +717,6 @@ CREATE INDEX fk_equities_owners1_idx ON equities USING btree (customer_id, risk_
 --
 
 CREATE INDEX fk_payees_acct_number1_idx ON payees USING btree (acct_number);
-
-
---
--- Name: fk_payees_acct_transaction1_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX fk_payees_acct_transaction1_idx ON payees USING btree (acct_transaction_id);
 
 
 --

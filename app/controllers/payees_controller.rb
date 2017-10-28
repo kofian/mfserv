@@ -1,4 +1,6 @@
 class PayeesController < ApplicationController
+  layout "customer" 
+  before_filter :authenticate_user!  
   before_action :set_payee, only: [:show, :edit, :update, :destroy]
 
   # GET /payees
@@ -28,7 +30,11 @@ class PayeesController < ApplicationController
 
     respond_to do |format|
       if @payee.save
-        format.html { redirect_to admin_acct_transaction_payee_path(@payee,@payee), notice: 'Payee was successfully created.' }
+        if admin?
+         format.html { redirect_to new_admin_payee_acct_transaction_path(@payee), notice: 'Payee was successfully created.' }
+        else
+         format.html { redirect_to new_payee_acct_transaction_path(@payee), notice: 'Payee was successfully created.' }
+        end
         format.json { render :show, status: :created, location: @payee }
       else
         format.html { render :new }
@@ -42,7 +48,11 @@ class PayeesController < ApplicationController
   def update
     respond_to do |format|
       if @payee.update(payee_params)
-        format.html { redirect_to admin_acct_transaction_payee_path(@payee,@payee), notice: 'Payee was successfully updated.' }
+        if admin?
+         format.html { redirect_to admin_payee_acct_transaction_path(@payee,@payee), notice: 'Payee was successfully updated.' }
+       else
+         format.html { redirect_to payee_acct_transaction_path(@payee,@payee), notice: 'Payee was successfully updated.' }
+        end
         format.json { render :show, status: :ok, location: @payee }
       else
         format.html { render :edit }
@@ -69,6 +79,6 @@ class PayeesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def payee_params
-      params.require(:payee).permit(:acct_transaction_id, :ref_name, :bank_name, :address,:acct_number,:city,:state,:country,:post_code,:phone,:payee_type,:routing_number,:swift_code)
+      params.require(:payee).permit(:ref_name, :bank_name, :address,:acct_number,:city,:state,:country,:post_code,:phone,:payee_type,:routing_number,:swift_code)
     end
 end

@@ -1,5 +1,7 @@
+<% content_for :customer_content do %>
 <h1>New Payee</h1>
 
 <%= render 'form', payee: @payee %>
 
 <%= link_to 'Back', payees_path %>
+<% end %>
