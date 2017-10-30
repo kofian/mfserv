@@ -121,6 +121,7 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
   namespace :admin do
+    
     resources :administrators do
      member do
       get :adminview
@@ -153,4 +154,9 @@ Rails.application.routes.draw do
       resources :addresses, :accounts, :coin_accounts, :equities
     end
   end
+   #resource :user, only: [:edit] do
+   #  collection do
+   #  patch 'update_password'
+  #end
+ #end
 end

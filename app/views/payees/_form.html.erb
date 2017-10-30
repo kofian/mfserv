@@ -26,10 +26,10 @@
              </div>
              <div class ="col-md-3">
                <%= fa.text_field :swift_code, :label => "SwiftCode" %>
-             </div>
+             </div><% if admin? %>
              <div class ="col-md-2 form-group">
                <%= fa.select :payee_type, options_for_select(['Debit', 'Credit']), class:"form-control" %>
-             </div>
+             </div><% end %>
            </div>
            <div class="row">
              <div class="col-md-10">
