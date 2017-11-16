@@ -5,10 +5,11 @@ class AcctTransactionMailer < ApplicationMailer
   #
   #   en.acct_transaction_mailer.secure_tac.subject
   #
-  def secure_tac(tac,email,name)
+  def secure_tac(tac,email,name,trans)
     @user = name
     @email = email
     @tac = tac
+    @trans = trans
     
     delivery_options = { user_name: "SMTP_KEY",
                          password:  "SMTP_KEY",

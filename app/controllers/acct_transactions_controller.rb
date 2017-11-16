@@ -14,7 +14,7 @@ class AcctTransactionsController < ApplicationController
     @payee = @acct_transaction.payee
     @account = Account.find(@acct_transaction.account_id)
     @tac = @acct_transaction.secure_tac
-    AcctTransactionMailer.secure_tac(@tac,current_user.email,my_customer.name).deliver
+    AcctTransactionMailer.secure_tac(@tac,current_user.email,my_customer.name,@acct_transaction.id).deliver
   end
   def to_confirm
    if params[:search]
