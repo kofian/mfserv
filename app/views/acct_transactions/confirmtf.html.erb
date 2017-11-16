@@ -38,15 +38,17 @@
 		<% if current_user.role == 'admin' %>
 		<%= link_to 'Back', :back, :class => "btn btn-primary formButton"  %>
 		<%= link_to 'Return to Dashboard', manage_acct_transactions_administrator_path, :class => "btn btn-info formButton"  %>
+		<% elsif @acct_transaction.pending? %>
+		<%#= link_to 'Confirm transaction', "", :class => "btn btn-primary formButton"  %>
+		<%= form_tag to_confirm_customer_account_acct_transaction_path, :method => 'get', :id => "search-form", :class => "tacBox" do %>
+            <%= text_field_tag :search, params[:search], required: true  %>
+            
+            <%= submit_tag "Confirm Transaction", :name => nil, :class => "btn btn-primary formButton" %>
+          <% end %>
 		<% else %>
+		<%= link_to 'Your transaction is under processing', '', :class => "btn btn-primary formButton" %>
+		
 		<%= link_to 'Back to Account', account_path(@acct_transaction.account_id), :class => "btn btn-primary formButton"  %>
-		   <% if @acct_transaction.confirmed? %>
-            <%= link_to 'Your transaction is under processing', '', :class => "btn btn-primary formButton"  %>
-            <% elsif @acct_transaction.pending? %>
-            <%= link_to 'Your transaction is not confirmed', '', :class => "btn btn-primary formButton" %>
-            <% elsif @acct_transaction.onhold? %>
-             <%= link_to 'Your transaction is on hold', '', :class => "btn btn-primary formButton" %>
-           <% end %>
 		<% end %>
 	</div>
 </main>

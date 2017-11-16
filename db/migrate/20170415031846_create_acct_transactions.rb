@@ -3,10 +3,12 @@ class CreateAcctTransactions < ActiveRecord::Migration[5.0]
    enable_extension 'uuid-ossp'
    create_table "acct_transactions", id: false, force: true do |t|
      t.integer  "id", limit: 8,       null: false
+     t.integer  "secure_tac", limit: 8,       null: false
      t.datetime "date",   null: false
      t.text     "description",   limit: 255
      t.decimal  "amount",  precision: 10, scale: 2, null: false
      t.integer  "account_id", limit: 8,    null: false
+     t.integer  "recipient_id", limit: 8,    null: false
      t.integer  "transaction_type_id",  null: false
      t.decimal "adjusted_bal",  precision: 10, scale: 2, null: false
      t.string "status", default:"pending"

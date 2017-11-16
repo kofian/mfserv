@@ -70,10 +70,12 @@ CREATE TABLE accounts (
 
 CREATE TABLE acct_transactions (
     id bigint NOT NULL,
+    secure_tac bigint NOT NULL,
     date timestamp without time zone NOT NULL,
     description text,
     amount numeric(10,2) NOT NULL,
     account_id bigint NOT NULL,
+    recipient_id bigint NOT NULL,
     transaction_type_id integer NOT NULL,
     adjusted_bal numeric(10,2) NOT NULL,
     status character varying DEFAULT 'pending'::character varying,
@@ -798,6 +800,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20171016141244'),
 ('20171016141759'),
 ('20171016141924'),
-('20171021044723');
+('20171021044723'),
+('20171116093109'),
+('20171116124200');
 
 

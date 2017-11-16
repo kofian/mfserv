@@ -10,6 +10,8 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    aasm (4.12.3)
+      concurrent-ruby (~> 1.0)
     actioncable (5.0.2)
       actionpack (= 5.0.2)
       nio4r (>= 1.2, < 3.0)
@@ -245,6 +247,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aasm
   autoprefixer-rails
   bootstrap-daterangepicker-rails
   bootstrap-sass (~> 3.3.6)

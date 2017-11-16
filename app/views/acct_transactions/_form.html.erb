@@ -24,10 +24,13 @@
         
           <br />
           Date: <strong><%= Time.now.to_date %></strong></p>
+        <%= f.hidden_field :date, :value => Time.now %>
         <!-- fields for AcctTransaction object -->
         <%= f.text_field :description, :style =>"max-width: 550px;" %>
         <%= f.text_field :amount, :style =>"width: 160px;" %>
-        <%= f.hidden_field :account_id, :value => params[:account_id] %>
+        <%= f.select( :account_id, my_customer.accounts.collect {|p| [ p.id ] } ) %>
+        <%#= f.hidden_field :account_id, :value => params[:account_id] %>
+        <%= f.hidden_field :payee_id, :value => params[:payee_id] %>
         <%= f.hidden_field :transaction_type_id, :value => params[:transaction_type_id] %>
         <%#= f.hidden_field :transaction_type_id, :value => @acct_transaction.transaction_type_id %>
           <%= f.fields_for :payee do |fa| %>

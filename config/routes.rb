@@ -34,7 +34,12 @@ Rails.application.routes.draw do
 
   resources :customers do
    resources :accounts do
-    resources :acct_transactions 
+    resources :acct_transactions do
+     member do
+      get :confirmtf
+      get :to_confirm
+     end
+    end
    end
   end 
     

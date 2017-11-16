@@ -1,6 +1,9 @@
 #class AcctTransaction < ApplicationRecord
 class AcctTransaction < ActiveRecord::Base	
+  include AASM
+  
     belongs_to :account
+    belongs_to :recipient, class_name: 'Account', foreign_key: 'recipient_id'
     belongs_to :transaction_type
     has_many :wire_transfers
     belongs_to :payee
@@ -12,11 +15,39 @@ class AcctTransaction < ActiveRecord::Base
 	validates_numericality_of :amount
 	validate :funds_availability
 
-  def self.deposit(account, amount)
-    puts "Depositing #{amount} on account #{account.id}"
+   aasm column: "status" do
+     state :pending, initial: true
+     state :confirmed
+     state :processing
+     state :onhold
+     state :rejected
+     state :processed
+     
+      event :confirm do
+        transitions from: [:pending], to: :confirmed
+      end
+      event :process do
+        transitions from: [:confirmed], to: :processing
+      end
+      event :ongoing do
+        transitions from: [:processing], to: :onhold
+      end
+      event :reject do
+        transitions from: [:onhold], to: :rejected
+      end  
+      event :accept do
+        transitions from: [:processing], to: :processed
+      end
+      event :reversing do
+        transitions from: [:confirmed], to: :pending
+      end     
+   end
+   
+  def self.deposit(recipient, amount)
+    puts "Depositing #{amount} on account #{recipient.id}"
     return false unless self.amount_valid?(amount)
-    account.balance = (account.balance += amount).round(2)
-    account.save!
+    recipient.balance = (recipient.balance += amount).round(2)
+    recipient.save!
   end
 
   def self.withdraw(account, amount)
@@ -39,6 +70,10 @@ class AcctTransaction < ActiveRecord::Base
     def funds_availability
       if self.transaction_type_id == 7 && self.amount > Account.find(self.account_id).balance
 	errors.add(:amount, 'INSUFFICIENT FUNDS!! Please try again')
-     end
-   end
+      end
+    end
+    
+    def self.amount_valid?(amount)
+      validates_numericality_of :amount
+    end
 end

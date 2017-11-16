@@ -31,6 +31,7 @@ gem 'recaptcha', :require => 'recaptcha/rails'
 #gem 'fabrication'
 #gem 'forgery'
 gem 'nested_form'
+gem 'aasm'
 
 gem 'momentjs-rails', '>= 2.9.0'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
