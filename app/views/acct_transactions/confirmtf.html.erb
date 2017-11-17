@@ -12,10 +12,14 @@
 		<ul>
 			<li>Account: <%= @acct_transaction.account_id%></li>
 			<li>Type: <%= TransactionType.find(@acct_transaction.transaction_type_id).name %></li>
-			<li>Date: <%= @acct_transaction.date%></li>
+			<li>Date: <%= time_tag(@acct_transaction.date) %></li>
 			<li>Amount: <%= number_to_currency(@acct_transaction.amount)%></li>
 			<li>Description: <%= @acct_transaction.description %></li>
-			<li>Payee Bank: <%= @payee.bank_name %></li>
+			<li>Beneficiary Name: <%= @payee.ref_name %></li>
+			<li>Beneficiary Bank Account: <%= @payee.acct_number%></li>
+			<li>Beneficiary Bank: <%= @payee.bank_name %></li>
+			<li>Beneficiary City: <%= @payee.city %></li>
+			<li>Beneficiary Country: <%= @payee.country %></li>
     <% unless @wire_transfer.nil? %>
     <li>Recipient Name: <%= @wire_transfer.recipient_name %></li>
     <li>Amount Credited: <%= @wire_transfer.credited %></li>
