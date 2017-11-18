@@ -9,8 +9,10 @@ class UsersController < ApplicationController
       @users = []
       @users << User.find(current_user)
     else
-      @users = User.all
+      #@users = User.all
+      redirect_to accounts_path
     end
+    redirect_to accounts_path
   end
 
   # GET /users/1
