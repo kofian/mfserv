@@ -1,0 +1,48 @@
+<p>
+  <%= @user %>, find your transaction with number: <%= @trans %> is currently on hold.
+  We will require some information that are not currently included in you kyc form.
+  
+</p>
+<br />
+
+<p>
+  Ref No:                        <%= @trans %>
+  Transaction Date                <%= time_tag(@acct_transaction.date) %>
+  Sender                          CACFVGV1
+  Status                          On hold
+</p>
+<br />
+<p>
+  <h4>Ordering Customer Details</h4><br/>
+  Sender                          MEIJER FINANCIAL SERVICES
+  Code                            CFGV187         
+  Name                            CARLSSON CURRENCY FUND LIMITED 
+  Address                         MILL MALL UNIT 18 WICKHAMS CAY, ROADTOWN, BVI 
+</p>
+<br />
+<p>
+<h4>Beneficiary Details</h4>
+  Name                   <%= @payee.ref_name %>
+  Address                <%= @payee.address %>
+  Country                <%= @payee.country %>  
+  Ben Type               Individual
+</p>
+<p>
+  <h4>PAYOUT DETAILS</h4>
+  Corresponding Bank
+  Beneficiary Account        <%= @payee.acct_number %> 
+  Bank Details               <%= @payee.bank_name %>, <%= @payee.city %> 
+  Purpose                    <%= @acct_transaction.description %>
+  Commission A/C             BEN
+  Currency                   USD
+  Amount                   <%= @acct_transaction.amount %>            
+  Sender SWIFT                CACFVGV1             
+  Reciever SWIFT          <%= @payee.swift_code %>  <%= @payee.routing_number %>
+</p>
+<br />
+<br />
+<p>
+    <h4>Customer Care</h4>
+    <h4>Meijer Financial Services</h4>
+    <h3>BVI</h3>
+</p>

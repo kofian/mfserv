@@ -157,7 +157,19 @@ Rails.application.routes.draw do
     end
     resources :customers do
       resources :addresses, :accounts, :coin_accounts, :equities
+  
+      resources :accounts do
+        resources :acct_transactions do
+          member do
+           get :place_onhold
+           get :process_transaction
+           get :reverse_transaction
+          end
+        end
+      end
+        
     end
+    
   end
    #resource :user, only: [:edit] do
    #  collection do

@@ -1,6 +1,6 @@
 class Admin::AcctTransactionsController < Admin::ApplicationController
   layout "admin"
-  before_action :set_acct_transaction, only: [:show, :edit, :update, :destroy]
+  before_action :set_acct_transaction, only: [:show, :edit, :update, :destroy, :process_transaction, :place_onhold]
 
   # GET /acct_transactions
   # GET /acct_transactions.json
@@ -8,6 +8,20 @@ class Admin::AcctTransactionsController < Admin::ApplicationController
     @acct_transactions = AcctTransaction.all
   end
 
+  def process_transaction
+    @payee = @acct_transaction.payee
+    @account = Account.find(@acct_transaction.account_id)
+    AcctTransactionMailer.processe(@account.customer.user.email,@account.customer.name,@acct_transaction.id,@acct_transaction,@payee,@account).deliver
+    @acct_transaction.process!
+    redirect_to customer_account_acct_transaction_path(@account.customer_id,@acct_transaction.account_id,@acct_transaction.id)
+  end
+  def place_onhold
+    @payee = @acct_transaction.payee
+    @account = Account.find(@acct_transaction.account_id)
+    AcctTransactionMailer.p_onhold(@account.customer.user.email,@account.customer.name,@acct_transaction.id,@acct_transaction,@payee,@account).deliver
+    @acct_transaction.ongoing!
+    redirect_to customer_account_acct_transaction_path(@account.customer_id,@acct_transaction.account_id,@acct_transaction.id)
+  end
   # GET /acct_transactions/1
   # GET /acct_transactions/1.json
   def show

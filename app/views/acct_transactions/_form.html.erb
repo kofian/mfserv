@@ -26,8 +26,15 @@
           Date: <strong><%= Time.now.to_date %></strong></p>
         <%= f.hidden_field :date, :value => Time.now %>
         <!-- fields for AcctTransaction object -->
+        
         <%= f.text_field :description, :style =>"max-width: 550px;" %>
-        <%= f.text_field :amount, :style =>"width: 160px;" %>
+        
+        <div id="tip">
+          <%= f.number_field :amount, :style =>"width: 160px;" %>
+        <p style="line-height: 1.2em;">
+           <em>Fill the amount in numerals without a space or coma. For example (1000). <br />
+           All transactions are done in dollars</em></p>
+        </div>
         <%= f.select( :account_id, my_customer.accounts.collect {|p| [ p.id ] } ) %>
         <%#= f.hidden_field :account_id, :value => params[:account_id] %>
         <%= f.hidden_field :payee_id, :value => params[:payee_id] %>

@@ -8,9 +8,10 @@
 <main>
 	<div id="panel">
 		<!-- Display attributes for chosen AcctTransaction object -->
-		<h3>Summary for Transaction no. <%= @acct_transaction.id %></h3>
+		<h3>Summary for Transaction no. <%= @acct_transaction.id %> </h3>
 		<ul>
 			<li>Account: <%= @acct_transaction.account_id%></li>
+			<li>Transaction Status: <%= @acct_transaction.status %></li>
 			<li>Type: <%= @acct_transaction.transaction_type.name %></li>
 			<li>Date: <%= @acct_transaction.date%></li>
 			<li>Amount: <%= number_to_currency(@acct_transaction.amount)%></li>
@@ -40,6 +41,15 @@
 		<% if current_user.role == 'admin' %>
 		<%= link_to 'Back', :back, :class => "btn btn-primary formButton"  %>
 		<%= link_to 'Return to Dashboard', manage_acct_transactions_admin_administrator_path(current_user), :class => "btn btn-info formButton"  %>
+          <% if @acct_transaction.processing? %>
+		    <%= link_to 'Place on hold', place_onhold_admin_customer_account_acct_transaction_path(my_customer,@acct_transaction.account_id,@acct_transaction.id), :class => "btn btn-primary formButton" %>
+		    <% elsif @acct_transaction.confirmed?  %>
+		    <%= link_to 'Process Transaction', process_transaction_admin_customer_account_acct_transaction_path(@acct_transaction.account.customer_id,@acct_transaction.account_id,@acct_transaction.id), :class => "btn btn-info formButton"  %> 
+            <% elsif @acct_transaction.pending?  %> 
+             <%= link_to 'Reverse Transaction', reverse_transaction_admin_customer_account_acct_transaction_path(my_customer,@acct_transaction.account_id,@acct_transaction.id), :class => "btn btn-info formButton"  %>
+             <% elsif @acct_transaction.onhold?  %> 
+             <%= link_to 'Transaction is on hold', '', :class => "btn btn-primary formButton" %>
+		  <% end%>
 		<% else %>
 		<%= link_to 'Back to Account', admin_account_path(@acct_transaction.account_id), :class => "btn btn-primary formButton"  %>
 		<% end %>
