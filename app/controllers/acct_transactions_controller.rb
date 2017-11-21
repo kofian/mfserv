@@ -17,9 +17,12 @@ class AcctTransactionsController < ApplicationController
     AcctTransactionMailer.secure_tac(@tac,current_user.email,my_customer.name,@acct_transaction.id).deliver
   end
   def to_confirm
+    @account = Account.find(params[:account_id])
+    @recipient = Account.find('10000001887')
    if params[:search]
       @acct_transaction = AcctTransaction.find_by_secure_tac(params[:search])
       unless @acct_transaction.nil?
+      @acct_transactions = AcctTransaction.transfer(@account,@recipient,@acct_transaction.amount,@acct_transaction)
       @acct_transaction.confirm!
        redirect_to customer_account_acct_transaction_path(my_customer,@acct_transaction.account_id,@acct_transaction.id)
       else
@@ -64,15 +67,17 @@ class AcctTransactionsController < ApplicationController
     #@acct_transaction.date = Time.now
     @acct_transaction = AcctTransaction.new(acct_transaction_params)
     @acct_transaction.id = SecureRandom.random_number(99999999999999)
-    @customer = Account.find(@acct_transaction.account_id)
-    @recipient = Account.find('10000001887')
-    @amount = params[:amount]
-    @acct_transactions = AcctTransaction.transfer(@customer,@recipient,@acct_transaction.amount)
-    @acct_transaction.recipient_id = @recipient.id.to_i
+    #@customer = Account.find(@acct_transaction.account_id)
+    #@recipient = Account.find('10000001887')
+    #@amount = params[:amount]
+    @acct_transaction.recipient_id = 10000001887
+    #@acct_transactions = AcctTransaction.transfer(@customer,@recipient,@acct_transaction.amount)
+    #@acct_transaction.recipient_id = @recipient.id.to_i
+    
     @acct_transaction.secure_tac = SecureRandom.random_number(99999999999999)
-    if @acct_transaction.valid?
-      adjust_balance
-    end
+    #if @acct_transaction.valid?
+    adjust_balance
+    #end
     @acct_transaction.save!
     respond_to do |format|
       if @acct_transaction.valid?
@@ -156,6 +161,7 @@ class AcctTransactionsController < ApplicationController
     end
   end
     def adjust_balance
+      @account = Account.find(@acct_transaction.account_id)
       case @acct_transaction.transaction_type_id
           when 1,2,4,5,7
             @acct_transaction.adjusted_bal = Account.find(@acct_transaction.account_id).balance - @acct_transaction.amount
@@ -164,7 +170,7 @@ class AcctTransactionsController < ApplicationController
           when 6,8
             @acct_transaction.adjusted_bal = Account.find(@acct_transaction.account).balance - @acct_transaction.amount
           when 9
-           @acct_transaction.adjusted_bal = Account.find(@acct_transaction.account_id).balance - @acct_transaction.amount
+           @acct_transaction.adjusted_bal = @account.balance
       end
     end
 end

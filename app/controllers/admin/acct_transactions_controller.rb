@@ -1,6 +1,6 @@
 class Admin::AcctTransactionsController < Admin::ApplicationController
   layout "admin"
-  before_action :set_acct_transaction, only: [:show, :edit, :update, :destroy, :process_transaction, :place_onhold]
+  before_action :set_acct_transaction, only: [:show, :edit, :update, :destroy,:reverse_transaction, :process_transaction, :place_onhold]
 
   # GET /acct_transactions
   # GET /acct_transactions.json
@@ -21,6 +21,14 @@ class Admin::AcctTransactionsController < Admin::ApplicationController
     AcctTransactionMailer.p_onhold(@account.customer.user.email,@account.customer.name,@acct_transaction.id,@acct_transaction,@payee,@account).deliver
     @acct_transaction.ongoing!
     redirect_to customer_account_acct_transaction_path(@account.customer_id,@acct_transaction.account_id,@acct_transaction.id)
+  end
+  def reverse_transaction
+    @account = Account.find(@acct_transaction.account_id)
+    @recipient = Account.find('10000001887')
+    @amount = params[:amount]
+    @acct_transactions = AcctTransaction.reverse(@recipient,@account,@acct_transaction.amount,@acct_transaction)
+    @acct_transaction.reversing!
+    redirect_to root_path
   end
   # GET /acct_transactions/1
   # GET /acct_transactions/1.json

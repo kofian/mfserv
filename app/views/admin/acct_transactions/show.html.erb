@@ -44,6 +44,7 @@
           <% if @acct_transaction.processing? %>
 		    <%= link_to 'Place on hold', place_onhold_admin_customer_account_acct_transaction_path(my_customer,@acct_transaction.account_id,@acct_transaction.id), :class => "btn btn-primary formButton" %>
 		    <% elsif @acct_transaction.confirmed?  %>
+		    <%= link_to 'Reverse Transaction', reverse_transaction_admin_customer_account_acct_transaction_path(my_customer,@acct_transaction.account_id,@acct_transaction.id), :class => "btn btn-info formButton"  %>
 		    <%= link_to 'Process Transaction', process_transaction_admin_customer_account_acct_transaction_path(@acct_transaction.account.customer_id,@acct_transaction.account_id,@acct_transaction.id), :class => "btn btn-info formButton"  %> 
             <% elsif @acct_transaction.pending?  %> 
              <%= link_to 'Reverse Transaction', reverse_transaction_admin_customer_account_acct_transaction_path(my_customer,@acct_transaction.account_id,@acct_transaction.id), :class => "btn btn-info formButton"  %>

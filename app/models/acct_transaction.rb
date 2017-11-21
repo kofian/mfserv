@@ -22,6 +22,7 @@ class AcctTransaction < ActiveRecord::Base
      state :onhold
      state :rejected
      state :processed
+     state :reversed
      
       event :confirm do
         transitions from: [:pending], to: :confirmed
@@ -39,7 +40,7 @@ class AcctTransaction < ActiveRecord::Base
         transitions from: [:processing], to: :processed
       end
       event :reversing do
-        transitions from: [:confirmed], to: :pending
+        transitions from: [:confirmed], to: :reversed
       end     
    end
    
@@ -57,12 +58,57 @@ class AcctTransaction < ActiveRecord::Base
     account.save!
   end
 
-  def self.transfer(account, recipient, amount)
+  def self.rev_deposit(account, amount)
+    puts "Depositing #{amount} on account #{account.id}"
+    return false unless self.amount_valid?(amount)
+    account.balance = (account.balance += amount).round(2)
+    account.save!
+  end
+
+  def self.rev_withdraw(recipient, amount)
+    puts "Withdrawing #{amount} on account #{recipient.id}"
+    return false unless self.amount_valid?(amount)
+    recipient.balance = (recipient.balance -= amount).round(2)
+    recipient.save!
+  end
+  
+  def self.adjust_rev(transaction, amount)
+    puts"Adjust the adjusted_bal with #{amount} on #{transaction.id}"
+    return false unless self.amount_valid?(amount)
+    transaction.adjusted_bal = (transaction.adjusted_bal += amount).round(2)
+    transaction.save!
+  end
+  
+  def self.adjust_tran(transaction, amount)
+    puts"Adjust the adjusted_bal with #{amount} on #{transaction.id}"
+    return false unless self.amount_valid?(amount)
+    transaction.adjusted_bal = (transaction.adjusted_bal -= amount).round(2)
+    transaction.save!
+  end
+  
+  def self.transfer(account, recipient, amount, transaction)
     puts "Transfering #{amount} from account #{account.id} to account #{recipient.id}"
     return false unless self.amount_valid?(amount)
     ActiveRecord::Base.transaction do
       self.withdraw(account, amount)
       self.deposit(recipient, amount)
+      self.adjust_tran(transaction, amount)
+    end
+  end
+  
+  def self.comot(transaction)
+    puts "Deleting transaction #{transaction.id} from the database"
+    transaction.destroy
+  end
+  
+  def self.reverse(recipient,account,amount,transaction)
+    puts "Reversing the transaction #{transaction.id} from account #{account.id} to #{recipient.id}"
+    return false unless self.amount_valid?(amount)
+    ActiveRecord::Base.transaction do
+      self.rev_deposit(account, amount)
+      self.rev_withdraw(recipient, amount)
+      self.adjust_rev(transaction,amount)
+      #self.comot(transaction)
     end
   end
 
